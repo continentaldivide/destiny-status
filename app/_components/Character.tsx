@@ -14,17 +14,34 @@ type Props = {
     };
   };
   itemHashes: number[];
+  itemInstanceIds: number[];
+  itemInstances: {
+    [key: string]: {
+      primaryStat: {
+        value: number;
+      };
+    };
+  };
 };
 
-export default function Character({ itemDefinitions, itemHashes }: Props) {
+export default function Character({
+  itemDefinitions,
+  itemHashes,
+  itemInstanceIds,
+  itemInstances,
+}: Props) {
   const [itemComponents, setItemComponents] = useState<JSX.Element[]>();
 
   useEffect(() => {
     if (itemDefinitions) {
       const itemComponents = itemHashes.map((item, i) => {
+        let powerLevel = undefined;
+        if (itemInstances[itemInstanceIds[i]].primaryStat) {
+          powerLevel = itemInstances[itemInstanceIds[i]].primaryStat.value;
+        }
         return (
           <div key={i}>
-            <Item item={itemDefinitions[item]} />
+            <Item item={itemDefinitions[item]} powerLevel={powerLevel} />
           </div>
         );
       });
@@ -32,5 +49,5 @@ export default function Character({ itemDefinitions, itemHashes }: Props) {
     }
   }, [itemDefinitions, itemHashes]);
 
-  return <div className="w-60">{itemComponents}</div>;
+  return <div className="w-100">{itemComponents}</div>;
 }

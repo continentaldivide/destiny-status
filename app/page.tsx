@@ -28,6 +28,7 @@ export default function Home() {
   const [currentUserMembershipType, setCurrentUserMembershipType] =
     useState<string>();
   const [characterData, setCharacterData] = useState();
+  const [itemInstances, setItemInstances] = useState();
   const [itemDefinitions, setItemDefinitions] = useState();
   const manifestIsLoaded = useManifestStatus();
 
@@ -58,7 +59,6 @@ export default function Home() {
         });
         const data = await response.json();
         setSearchResults(data.searchResults);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -71,7 +71,6 @@ export default function Home() {
       setSearchResultComponents([]);
       return;
     }
-    console.log('search results populated');
     const searchResultComponents = searchResults.map((searchResult, i) => {
       return (
         <SearchComponent
@@ -108,15 +107,16 @@ export default function Home() {
       }),
     });
     const data = await response.json();
-    return data.characterEquipment.data;
+    return [data.characterEquipment.data, data.itemComponents.instances.data];
   };
 
   useEffect(() => {
     if (currentUserMembershipId && currentUserMembershipType) {
       (async () => {
         try {
-          const characterData = await fetchCharacters();
+          const [characterData, itemInstances] = await fetchCharacters();
           setCharacterData(characterData);
+          setItemInstances(itemInstances);
         } catch (error) {
           console.log(error);
         }
@@ -142,10 +142,11 @@ export default function Home() {
         {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
         {searchResultComponents.length ? searchResultsContainer : null}
       </div>
-      {characterData && itemDefinitions ? (
+      {characterData && itemDefinitions && itemInstances ? (
         <CharacterContainer
           characterData={characterData}
           itemDefinitions={itemDefinitions}
+          itemInstances={itemInstances}
         />
       ) : null}
     </>
