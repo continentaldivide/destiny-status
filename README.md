@@ -1,6 +1,6 @@
 ## What's Destiny Status?
 
-This project is a straightforward, one-page glance at a set of Destiny 2 characters. It's inspired by a previous version of the website www.destinystatus.com, originally developed by redditor [mofrodo](https://www.reddit.com/user/mofrodo). That user [handed over development](https://www.reddit.com/r/DestinyTheGame/comments/3z5h4g/destinystatuscom_is_back_online_open_source/) to the Tracker Network team back in 2017 and those folks maintained it for several years, but it eventually went offline for good sometime during 2021 or 2022. Since then, it's been replaced with a different offering unrelated to the original app. I was quite fond of Destiny Status and sad to see it gone, so I wanted to create something similar to fill the niche it left behind.
+This project is a straightforward, one-page glance at a set of Destiny 2 characters. It's inspired by a previous version of the website www.destinystatus.com, originally developed by redditor [mofrodo](https://www.reddit.com/user/mofrodo). That user [handed over development](https://www.reddit.com/r/DestinyTheGame/comments/3z5h4g/destinystatuscom_is_back_online_open_source/) to the Tracker Network team back in 2016 and those folks maintained it for several years, but it eventually went offline for good sometime during 2021 or 2022. Since then, it's been replaced with a different offering unrelated to the original app. I was quite fond of Destiny Status and sad to see it gone, so I wanted to create something similar to fill the niche it left behind.
 
 ## Why Make This?
 
