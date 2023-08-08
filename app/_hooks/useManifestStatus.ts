@@ -44,24 +44,24 @@ export function useManifestStatus() {
 
   // once the previous effect is complete and state variables have been updated, check for version match and fetch the manifest if mismatch
   useEffect(() => {
-    if (manifestPath == "") return;
+    if (manifestPath == '') return;
     (async () => {
       const manifestVersionsMatch = await compareManifestVersion(
         fetchedVersionNumber
       );
       if (manifestVersionsMatch) {
-          console.log('stored manifest matches current version');
+        console.log('stored manifest matches current version');
         setManifestLoaded(true);
       } else {
         console.log(
-            'stored manifest does not match current version -- downloading new manifest'
+          'stored manifest does not match current version -- downloading new manifest'
         );
         try {
           await fetchManifest();
-          set("cacheManifestVersion", fetchedVersionNumber);
+          set('cacheManifestVersion', fetchedVersionNumber);
           setManifestLoaded(true);
         } catch (e) {
-          console.error("Could not fetch manifest")
+          console.error('Could not fetch manifest');
         }
       }
     })();
