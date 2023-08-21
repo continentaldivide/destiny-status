@@ -1,17 +1,14 @@
 'use client';
 
+import ItemType from '../_interfaces/DestinyInventoryItemDefinition.interface';
+
 type Props = {
-  item: {
-    displayProperties: {
-      name: string;
-      icon: string;
-    };
-    itemTypeAndTierDisplayName: string;
-  };
+  item: ItemType;
   powerLevel?: number;
 };
 
 export default function Item({ item, powerLevel }: Props) {
+  console.log(item);
   return (
     <div className="flex mt-8 items-center">
       <img

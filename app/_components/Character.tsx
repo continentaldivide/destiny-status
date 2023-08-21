@@ -1,17 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import ItemType from '../_interfaces/DestinyInventoryItemDefinition.interface';
 import Item from './Item';
 
 type Props = {
   itemDefinitions: {
-    [key: number]: {
-      displayProperties: {
-        name: string;
-        icon: string;
-      };
-      itemTypeAndTierDisplayName: string;
-    };
+    [key: number]: ItemType;
   };
   itemHashes: number[];
   itemInstanceIds: number[];
