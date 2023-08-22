@@ -1,13 +1,11 @@
 'use client';
 
+import CharacterEquipmentType from '../_interfaces/CharacterEquipment.interface';
 import Character from './Character';
 
 type Props = {
   characterData: {
-    [key: string]: {
-      // can come back to fix later -- unsure of how we want the data long-term
-      items: any[];
-    };
+    [key: string]: CharacterEquipmentType;
   };
   itemDefinitions: {};
   itemInstances: {};
@@ -20,12 +18,12 @@ export default function CharacterContainer({
 }: Props) {
   const characterIds = Object.keys(characterData);
   const characters = characterIds.map((characterId, i) => {
-    const itemHashes: number[] = characterData[characterId].items.map(
+    const itemHashes = characterData[characterId].items.map(
       (item, i) => {
         return item.itemHash;
       }
     );
-    const itemInstanceIds: number[] = characterData[characterId].items.map(
+    const itemInstanceIds = characterData[characterId].items.map(
       (item, i) => {
         return item.itemInstanceId;
       }

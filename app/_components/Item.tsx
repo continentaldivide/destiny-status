@@ -1,6 +1,6 @@
 'use client';
 
-import ItemType from '../_interfaces/DestinyInventoryItemDefinition.interface';
+import ItemType from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
 type Props = {
   item: ItemType;
@@ -8,7 +8,6 @@ type Props = {
 };
 
 export default function Item({ item, powerLevel }: Props) {
-  console.log(item);
   return (
     <div className="flex mt-8 items-center">
       <img
