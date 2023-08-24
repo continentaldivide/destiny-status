@@ -5,21 +5,15 @@ import CharacterContainer from './_components/CharacterContainer';
 import SearchComponent from './_components/SearchResult';
 import { get } from 'idb-keyval';
 import { useManifestStatus } from './_hooks/useManifestStatus';
-
-type SearchResult = {
-  bungieGlobalDisplayName: string;
-  bungieGlobalDisplayNameCode: number;
-  destinyMemberships: {
-    membershipId: string;
-    membershipType: number;
-  }[];
-};
+import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
 
 const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
 export default function Home() {
   const [username, setUsername] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchResults, setSearchResults] = useState<PlayerSearchResultType[]>(
+    []
+  );
   const [searchResultComponents, setSearchResultComponents] = useState<
     JSX.Element[]
   >([]);
