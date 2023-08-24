@@ -1,13 +1,9 @@
 'use client';
 
+import ItemType from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
+
 type Props = {
-  item: {
-    displayProperties: {
-      name: string;
-      icon: string;
-    };
-    itemTypeAndTierDisplayName: string;
-  };
+  item: ItemType;
   powerLevel?: number;
 };
 
