@@ -6,6 +6,7 @@ import SearchComponent from './_components/SearchResult';
 import { get } from 'idb-keyval';
 import { useManifestStatus } from './_hooks/useManifestStatus';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
+import DestinyInventoryItemDefinitionContext from './_context/DestinyInventoryItemDefinitionContext';
 
 const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
@@ -126,23 +127,25 @@ export default function Home() {
 
   const loadedView = (
     <>
-      <div className="flex flex-col items-center mt-2 gap-1">
-        <input
-          value={username}
-          placeholder="search by Bungie name..."
-          className="bg-slate-900 border border-slate-500 w-60"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
-        {searchResultComponents.length ? searchResultsContainer : null}
-      </div>
-      {characterData && itemDefinitions && itemInstances ? (
-        <CharacterContainer
-          characterData={characterData}
-          itemDefinitions={itemDefinitions}
-          itemInstances={itemInstances}
-        />
-      ) : null}
+      <DestinyInventoryItemDefinitionContext.Provider value={itemDefinitions}>
+        <div className="flex flex-col items-center mt-2 gap-1">
+          <input
+            value={username}
+            placeholder="search by Bungie name..."
+            className="bg-slate-900 border border-slate-500 w-60"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
+          {searchResultComponents.length ? searchResultsContainer : null}
+        </div>
+        {characterData && itemDefinitions && itemInstances ? (
+          <CharacterContainer
+            characterData={characterData}
+            itemDefinitions={itemDefinitions}
+            itemInstances={itemInstances}
+          />
+        ) : null}
+      </DestinyInventoryItemDefinitionContext.Provider>
     </>
   );
 

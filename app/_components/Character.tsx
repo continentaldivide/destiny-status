@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ItemType from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
+import { ItemType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import Item from './Item';
 
@@ -33,7 +33,7 @@ export default function Character({
         }
         return (
           <div key={i}>
-            <Item item={itemDefinitions[item]} powerLevel={powerLevel} />
+            <Item itemHash={item} powerLevel={powerLevel} />
           </div>
         );
       });
