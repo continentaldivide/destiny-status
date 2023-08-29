@@ -1,12 +1,14 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import { get } from 'idb-keyval';
+import { ItemTableType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
-export const DestinyInventoryItemDefinitionContext = createContext();
+export const DestinyInventoryItemDefinitionContext =
+  createContext<ItemTableType>({});
 
 export function DestinyInventoryItemDefinitionContextProvider(props: any) {
   const manifestIsLoaded = useManifestStatus();
-  const [itemDefinitions, setItemDefinitions] = useState();
+  const [itemDefinitions, setItemDefinitions] = useState<ItemTableType>({});
 
   const getItemDefinitions = async () => {
     const manifest = await get('manifest');
@@ -16,7 +18,7 @@ export function DestinyInventoryItemDefinitionContextProvider(props: any) {
   useEffect(() => {
     if (!manifestIsLoaded) return;
     (async () => {
-      const itemDefinitions = await getItemDefinitions();
+      const itemDefinitions: ItemTableType = await getItemDefinitions();
       setItemDefinitions(itemDefinitions);
     })();
   }, [manifestIsLoaded]);
