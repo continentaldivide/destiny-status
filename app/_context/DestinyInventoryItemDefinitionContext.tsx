@@ -26,7 +26,7 @@ export function DestinyInventoryItemDefinitionContextProvider(props: any) {
   return (
     <>
       <DestinyInventoryItemDefinitionContext.Provider value={itemDefinitions}>
-        {itemDefinitions ? props.children : <p>loading...</p>}
+        {Object.keys(itemDefinitions).length > 0 ? props.children : <p>loading...</p>}
       </DestinyInventoryItemDefinitionContext.Provider>
     </>
   );
