@@ -3,10 +3,8 @@
 import { useState, useEffect } from 'react';
 import CharacterContainer from './_components/CharacterContainer';
 import SearchComponent from './_components/SearchResult';
-import { get } from 'idb-keyval';
-import { useManifestStatus } from './_hooks/useManifestStatus';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
-import DestinyInventoryItemDefinitionContext from './_context/DestinyInventoryItemDefinitionContext';
+import { DestinyInventoryItemDefinitionContextProvider } from './_context/DestinyInventoryItemDefinitionContext';
 
 const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
@@ -24,22 +22,6 @@ export default function Home() {
     useState<string>();
   const [characterData, setCharacterData] = useState();
   const [itemInstances, setItemInstances] = useState();
-  const [itemDefinitions, setItemDefinitions] = useState();
-  const manifestIsLoaded = useManifestStatus();
-
-  const getItemDefinitions = async () => {
-    const manifest = await get('manifest');
-    return manifest.DestinyItemInventoryDefinition;
-  };
-
-  // sets the manifest table as our state
-  useEffect(() => {
-    if (!manifestIsLoaded) return;
-    (async () => {
-      const itemDefinitions = await getItemDefinitions();
-      setItemDefinitions(itemDefinitions);
-    })();
-  }, [manifestIsLoaded]);
 
   useEffect(() => {
     const fetchUsers = setTimeout(async () => {
@@ -124,10 +106,10 @@ export default function Home() {
       {searchResultComponents}
     </div>
   );
-
-  const loadedView = (
-    <>
-      <DestinyInventoryItemDefinitionContext.Provider value={itemDefinitions}>
+  
+  return (
+    <main className="flex min-h-screen flex-col items-center pt-24">
+      <DestinyInventoryItemDefinitionContextProvider>
         <div className="flex flex-col items-center mt-2 gap-1">
           <input
             value={username}
@@ -138,23 +120,13 @@ export default function Home() {
           {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
           {searchResultComponents.length ? searchResultsContainer : null}
         </div>
-        {characterData && itemDefinitions && itemInstances ? (
+        {characterData && itemInstances ? (
           <CharacterContainer
             characterData={characterData}
-            itemDefinitions={itemDefinitions}
             itemInstances={itemInstances}
           />
         ) : null}
-      </DestinyInventoryItemDefinitionContext.Provider>
-    </>
-  );
-
-  const loadingView = <p>loading...</p>;
-
-  return (
-    <main className="flex min-h-screen flex-col items-center pt-24">
-      {/* show "loading" view until item definition data is done being placed into state */}
-      {itemDefinitions ? loadedView : loadingView}
+      </DestinyInventoryItemDefinitionContextProvider>
     </main>
   );
 }

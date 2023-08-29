@@ -7,13 +7,11 @@ type Props = {
   characterData: {
     [key: string]: CharacterEquipmentType;
   };
-  itemDefinitions: {};
   itemInstances: {};
 };
 
 export default function CharacterContainer({
   characterData,
-  itemDefinitions,
   itemInstances,
 }: Props) {
   const characterIds = Object.keys(characterData);
@@ -34,7 +32,6 @@ export default function CharacterContainer({
         {/* need to add dynamic character names */}
         <p className="text-center">CHARACTER</p>
         <Character
-          itemDefinitions={itemDefinitions}
           itemHashes={itemHashes}
           itemInstanceIds={itemInstanceIds}
           itemInstances={itemInstances}

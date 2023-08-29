@@ -1,14 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ItemType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import Item from './Item';
 
 type Props = {
-  itemDefinitions: {
-    [key: number]: ItemType;
-  };
   itemHashes: number[];
   itemInstanceIds: string[];
   itemInstances: {
@@ -17,7 +13,6 @@ type Props = {
 };
 
 export default function Character({
-  itemDefinitions,
   itemHashes,
   itemInstanceIds,
   itemInstances,
@@ -25,21 +20,15 @@ export default function Character({
   const [itemComponents, setItemComponents] = useState<JSX.Element[]>();
 
   useEffect(() => {
-    if (itemDefinitions) {
-      const itemComponents = itemHashes.map((item, i) => {
-        let powerLevel = undefined;
-        if (itemInstances[itemInstanceIds[i]].primaryStat) {
-          powerLevel = itemInstances[itemInstanceIds[i]].primaryStat.value;
-        }
-        return (
-          <div key={i}>
-            <Item itemHash={item} powerLevel={powerLevel} />
-          </div>
-        );
-      });
-      setItemComponents(itemComponents);
-    }
-  }, [itemDefinitions, itemHashes]);
+    const itemComponents = itemHashes.map((item, i) => {
+      let powerLevel = undefined;
+      if (itemInstances[itemInstanceIds[i]].primaryStat) {
+        powerLevel = itemInstances[itemInstanceIds[i]].primaryStat.value;
+      }
+      return <Item itemHash={item} powerLevel={powerLevel} />;
+    });
+    setItemComponents(itemComponents);
+  }, [itemHashes]);
 
   return <div className="w-100">{itemComponents}</div>;
 }

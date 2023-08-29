@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
-import DestinyInventoryItemDefinitionContext from '../_context/DestinyInventoryItemDefinitionContext';
+import { DestinyInventoryItemDefinitionContext } from '../_context/DestinyInventoryItemDefinitionContext';
 import { ItemTableType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
 type Props = {
