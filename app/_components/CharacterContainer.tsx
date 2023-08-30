@@ -15,11 +15,12 @@ export default function CharacterContainer({
   itemInstances,
 }: Props) {
   const characterIds = Object.keys(characterData);
+  
   const characters = characterIds.map((characterId, i) => {
-    const itemHashes = characterData[characterId].items.map((item, i) => {
+    const itemHashes = characterData[characterId].items.map((item) => {
       return item.itemHash;
     });
-    const itemInstanceIds = characterData[characterId].items.map((item, i) => {
+    const itemInstanceIds = characterData[characterId].items.map((item) => {
       return item.itemInstanceId;
     });
 
