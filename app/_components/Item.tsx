@@ -15,11 +15,20 @@ export default function Item({ itemHash, powerLevel }: Props) {
   );
   return (
     <div className="flex border border-pink-300">
-      <img
-        src={`https://bungie.net${definitions[itemHash].displayProperties.icon}`}
-        alt=""
-        className="w-20"
-      />
+      <div className="relative">
+        <img
+          src={`https://bungie.net${definitions[itemHash].displayProperties.icon}`}
+          alt=""
+          className="w-20"
+        />
+        <div className="absolute top-0">
+          <img
+            src={`https://bungie.net${definitions[itemHash].iconWatermark}`}
+            alt=""
+            className="w-20"
+          />
+        </div>
+      </div>
       <div className="grow text-right">
         <p className="text-xl">
           {definitions[itemHash].displayProperties.name}
