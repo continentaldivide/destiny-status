@@ -74,10 +74,6 @@ export default function Home() {
   const fetchCharacters = async () => {
     const response = await fetch(`${URL}/api/get-bungie-profile`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': `${process.env.REACT_APP_DESTINY_API_KEY}`,
-      },
       body: JSON.stringify({
         membershipType: currentUserMembershipType,
         membershipId: currentUserMembershipId,
@@ -106,7 +102,7 @@ export default function Home() {
       {searchResultComponents}
     </div>
   );
-  
+
   return (
     <main className="flex min-h-screen flex-col items-center pt-24">
       <DestinyInventoryItemDefinitionContextProvider>

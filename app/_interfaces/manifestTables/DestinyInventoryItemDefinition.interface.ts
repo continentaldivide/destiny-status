@@ -4,6 +4,7 @@ export interface ItemType {
     icon: string;
   };
   flavorText: string;
+  iconWatermark?: string;
   itemTypeAndTierDisplayName: string;
 }
 

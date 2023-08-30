@@ -15,30 +15,24 @@ export default function CharacterContainer({
   itemInstances,
 }: Props) {
   const characterIds = Object.keys(characterData);
+  
   const characters = characterIds.map((characterId, i) => {
-    const itemHashes = characterData[characterId].items.map(
-      (item, i) => {
-        return item.itemHash;
-      }
-    );
-    const itemInstanceIds = characterData[characterId].items.map(
-      (item, i) => {
-        return item.itemInstanceId;
-      }
-    );
+    const itemHashes = characterData[characterId].items.map((item) => {
+      return item.itemHash;
+    });
+    const itemInstanceIds = characterData[characterId].items.map((item) => {
+      return item.itemInstanceId;
+    });
 
     return (
-      <div key={i} style={{ listStyle: 'none', border: '1px solid purple' }}>
-        {/* need to add dynamic character names */}
-        <p className="text-center">CHARACTER</p>
-        <Character
-          itemHashes={itemHashes}
-          itemInstanceIds={itemInstanceIds}
-          itemInstances={itemInstances}
-        />
-      </div>
+      <Character
+        itemHashes={itemHashes}
+        itemInstanceIds={itemInstanceIds}
+        itemInstances={itemInstances}
+        key={i}
+      />
     );
   });
 
-  return <div className="flex">{characters}</div>;
+  return <div className="flex gap-4">{characters}</div>;
 }

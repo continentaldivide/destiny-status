@@ -25,10 +25,10 @@ export default function Character({
       if (itemInstances[itemInstanceIds[i]].primaryStat) {
         powerLevel = itemInstances[itemInstanceIds[i]].primaryStat.value;
       }
-      return <Item itemHash={item} powerLevel={powerLevel} />;
+      return <Item itemHash={item} powerLevel={powerLevel} key={i} />;
     });
     setItemComponents(itemComponents);
   }, [itemHashes]);
 
-  return <div className="w-100">{itemComponents}</div>;
+  return <div className="w-100 border border-sky-500">{itemComponents}</div>;
 }
