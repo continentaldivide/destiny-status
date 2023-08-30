@@ -16,16 +16,12 @@ export default function CharacterContainer({
 }: Props) {
   const characterIds = Object.keys(characterData);
   const characters = characterIds.map((characterId, i) => {
-    const itemHashes = characterData[characterId].items.map(
-      (item, i) => {
-        return item.itemHash;
-      }
-    );
-    const itemInstanceIds = characterData[characterId].items.map(
-      (item, i) => {
-        return item.itemInstanceId;
-      }
-    );
+    const itemHashes = characterData[characterId].items.map((item, i) => {
+      return item.itemHash;
+    });
+    const itemInstanceIds = characterData[characterId].items.map((item, i) => {
+      return item.itemInstanceId;
+    });
 
     return (
       <div key={i} style={{ listStyle: 'none', border: '1px solid purple' }}>
@@ -40,5 +36,5 @@ export default function CharacterContainer({
     );
   });
 
-  return <div className="flex">{characters}</div>;
+  return <div className="flex gap-4">{characters}</div>;
 }

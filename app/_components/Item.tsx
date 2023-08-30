@@ -14,13 +14,13 @@ export default function Item({ itemHash, powerLevel }: Props) {
     DestinyInventoryItemDefinitionContext
   );
   return (
-    <div className="flex mt-8 items-center">
+    <div className="flex border border-pink-300">
       <img
         src={`https://bungie.net${definitions[itemHash].displayProperties.icon}`}
         alt=""
-        style={{ height: '8em' }}
+        className="w-20"
       />
-      <div className="text-center grow">
+      <div className="grow text-right">
         <p className="text-xl">
           {definitions[itemHash].displayProperties.name}
         </p>
