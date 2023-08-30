@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
+import Image from 'next/image';
 import { DestinyInventoryItemDefinitionContext } from '../_context/DestinyInventoryItemDefinitionContext';
 import { ItemTableType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
@@ -16,18 +17,27 @@ export default function Item({ itemHash, powerLevel }: Props) {
   return (
     <div className="flex border border-pink-300">
       <div className="relative">
-        <img
+        <Image
           src={`https://bungie.net${definitions[itemHash].displayProperties.icon}`}
           alt=""
+          width={80}
+          height={80}
           className="w-20"
         />
-        <div className="absolute top-0">
-          <img
-            src={`https://bungie.net${definitions[itemHash].iconWatermark}`}
-            alt=""
-            className="w-20"
-          />
-        </div>
+
+        {/* some items don't have a content-source watermark (e.g. "generalist shell") -- ternary here ensures the item has an iconWatermark property before trying to fetch from the image src */}
+
+        {definitions[itemHash].iconWatermark ? (
+          <div className="absolute top-0">
+            <Image
+              src={`https://bungie.net${definitions[itemHash].iconWatermark}`}
+              alt=""
+              width={80}
+              height={80}
+              className="w-20"
+            />
+          </div>
+        ) : null}
       </div>
       <div className="grow text-right">
         <p className="text-xl">
