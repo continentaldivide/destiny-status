@@ -30,5 +30,5 @@ export default function Character({
     setItemComponents(itemComponents);
   }, [itemHashes]);
 
-  return <div className="w-100">{itemComponents}</div>;
+  return <div className="w-100 border border-sky-500">{itemComponents}</div>;
 }

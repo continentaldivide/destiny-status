@@ -24,15 +24,12 @@ export default function CharacterContainer({
     });
 
     return (
-      <div key={i} style={{ listStyle: 'none', border: '1px solid purple' }}>
-        {/* need to add dynamic character names */}
-        <p className="text-center">CHARACTER</p>
-        <Character
-          itemHashes={itemHashes}
-          itemInstanceIds={itemInstanceIds}
-          itemInstances={itemInstances}
-        />
-      </div>
+      <Character
+        itemHashes={itemHashes}
+        itemInstanceIds={itemInstanceIds}
+        itemInstances={itemInstances}
+        key={i}
+      />
     );
   });
 
