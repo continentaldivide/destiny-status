@@ -5,9 +5,9 @@ import { get, set } from 'idb-keyval';
 export function useManifestStatus() {
   const [fetchedVersionNumber, setFetchedVersionNumber] = useState('');
   const [manifestPath, setManifestPath] = useState('');
-  const [manifestLoaded, setManifestLoaded] = useState(false);
+  const [newestManifestInStorage, setNewestManifestInStorage] = useState(false);
 
-  // get the most recent manifest version and the location to download it
+  // get the most recent manifest version number and its location
   const fetchManifestData = async () => {
     const response = await fetch(
       'https://www.bungie.net/Platform/Destiny2/manifest/'
@@ -16,7 +16,7 @@ export function useManifestStatus() {
     return [data.Response.version, data.Response.jsonWorldContentPaths.en];
   };
 
-  // check active manifest version against what's in keyval store
+  // check latest manifest version against what's in keyval store
   const compareManifestVersion = async (fetchedVersionNumber: string) => {
     const cacheManifestVersion = await get('cacheManifestVersion');
     return cacheManifestVersion == fetchedVersionNumber;
@@ -33,7 +33,7 @@ export function useManifestStatus() {
     });
   };
 
-  // initial API request to add relevant metadata to state
+  // initial API request for manifest metadata
   useEffect(() => {
     (async () => {
       const [version, path] = await fetchManifestData();
@@ -42,7 +42,7 @@ export function useManifestStatus() {
     })();
   }, []);
 
-  // once the previous effect is complete and state variables have been updated, check for version match and fetch the manifest if mismatch
+  // once the previous effect is complete and state has been updated, check for version match and fetch the latest manifest if stored version is out of date
   useEffect(() => {
     if (manifestPath == '') return;
     (async () => {
@@ -51,7 +51,7 @@ export function useManifestStatus() {
       );
       if (manifestVersionsMatch) {
         console.log('stored manifest matches current version');
-        setManifestLoaded(true);
+        setNewestManifestInStorage(true);
       } else {
         console.log(
           'stored manifest does not match current version -- downloading new manifest'
@@ -59,7 +59,7 @@ export function useManifestStatus() {
         try {
           await fetchManifest();
           set('cacheManifestVersion', fetchedVersionNumber);
-          setManifestLoaded(true);
+          setNewestManifestInStorage(true);
         } catch (e) {
           console.error('Could not fetch manifest');
         }
@@ -67,5 +67,5 @@ export function useManifestStatus() {
     })();
   }, [manifestPath]);
 
-  return manifestLoaded;
+  return newestManifestInStorage;
 }

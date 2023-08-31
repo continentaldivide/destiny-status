@@ -8,18 +8,18 @@ export const ManifestContext = createContext<ManifestType | undefined>(
 );
 
 export function ManifestContextProvider(props: any) {
-  const manifestIsLoaded = useManifestStatus();
+  const newestManifestInStorage = useManifestStatus();
   const [manifest, setManifest] = useState<ManifestType | undefined>();
   const [manifestIsReady, setManifestIsReady] = useState(false);
 
   useEffect(() => {
-    if (!manifestIsLoaded) return;
+    if (!newestManifestInStorage) return;
     (async () => {
       const manifest: ManifestType | undefined = await get('manifest');
       setManifest(manifest);
       setManifestIsReady(true);
     })();
-  }, [manifestIsLoaded]);
+  }, [newestManifestInStorage]);
 
   return (
     <ManifestContext.Provider value={manifest}>
