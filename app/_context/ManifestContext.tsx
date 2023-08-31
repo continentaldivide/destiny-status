@@ -11,7 +11,7 @@ export function ManifestContextProvider(props: any) {
 
   const getItemDefinitions = async () => {
     const manifest = await get('manifest');
-    return manifest.DestinyItemInventoryDefinition;
+    return manifest.DestinyInventoryItemDefinition;
   };
 
   useEffect(() => {

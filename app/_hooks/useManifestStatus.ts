@@ -25,11 +25,11 @@ export function useManifestStatus() {
   // fetch current manifest from bungie and save it in store
   const fetchManifest = async () => {
     const response = await fetch(`https://www.bungie.net${manifestPath}`);
-    const data = await response.json();
-    console.log(data);
+    const { DestinyMilestoneDefinition, DestinyInventoryItemDefinition } =
+      await response.json();
     set('manifest', {
-      DestinyMilestoneDefinition: data.DestinyMilestoneDefinition,
-      DestinyItemInventoryDefinition: data.DestinyInventoryItemDefinition,
+      DestinyMilestoneDefinition,
+      DestinyInventoryItemDefinition,
     });
   };
 
