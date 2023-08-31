@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { ManifestContext } from '../_context/ManifestContext';
+import { useManifestContext } from '../_context/ManifestContext';
 import Image from 'next/image';
 
 type Props = {
@@ -8,7 +7,7 @@ type Props = {
 };
 
 export default function Item({ itemHash, powerLevel }: Props) {
-  const { DestinyInventoryItemDefinition } = useContext(ManifestContext);
+  const { DestinyInventoryItemDefinition } = useManifestContext();
   const item = DestinyInventoryItemDefinition[itemHash];
 
   return (
