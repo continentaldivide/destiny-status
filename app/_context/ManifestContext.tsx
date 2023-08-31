@@ -1,35 +1,25 @@
 import { useState, useEffect, createContext } from 'react';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import { get } from 'idb-keyval';
-import { ItemTableType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
-export const ManifestContext = createContext<ItemTableType>({});
+export const ManifestContext = createContext({});
 
 export function ManifestContextProvider(props: any) {
   const manifestIsLoaded = useManifestStatus();
-  const [itemDefinitions, setItemDefinitions] = useState<ItemTableType>({});
-
-  const getItemDefinitions = async () => {
-    const manifest = await get('manifest');
-    return manifest.DestinyInventoryItemDefinition;
-  };
+  const [manifest, setManifest] = useState({});
 
   useEffect(() => {
     if (!manifestIsLoaded) return;
     (async () => {
-      const itemDefinitions: ItemTableType = await getItemDefinitions();
-      setItemDefinitions(itemDefinitions);
+      const manifest = await get('manifest');
+      setManifest(manifest);
     })();
   }, [manifestIsLoaded]);
 
   return (
     <>
-      <ManifestContext.Provider value={itemDefinitions}>
-        {Object.keys(itemDefinitions).length > 0 ? (
-          props.children
-        ) : (
-          <p>loading...</p>
-        )}
+      <ManifestContext.Provider value={manifest}>
+        {Object.keys(manifest).length > 0 ? props.children : <p>loading...</p>}
       </ManifestContext.Provider>
     </>
   );

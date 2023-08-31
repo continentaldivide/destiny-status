@@ -8,8 +8,8 @@ type Props = {
 };
 
 export default function Item({ itemHash, powerLevel }: Props) {
-  const definitions = useContext(ManifestContext);
-  const item = definitions[itemHash];
+  const { DestinyInventoryItemDefinition } = useContext(ManifestContext);
+  const item = DestinyInventoryItemDefinition[itemHash];
 
   return (
     <div className="flex border border-pink-300">
