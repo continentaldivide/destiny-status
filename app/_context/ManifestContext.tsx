@@ -3,10 +3,9 @@ import { useManifestStatus } from '../_hooks/useManifestStatus';
 import { get } from 'idb-keyval';
 import { ItemTableType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
-export const DestinyInventoryItemDefinitionContext =
-  createContext<ItemTableType>({});
+export const ManifestContext = createContext<ItemTableType>({});
 
-export function DestinyInventoryItemDefinitionContextProvider(props: any) {
+export function ManifestContextProvider(props: any) {
   const manifestIsLoaded = useManifestStatus();
   const [itemDefinitions, setItemDefinitions] = useState<ItemTableType>({});
 
@@ -25,9 +24,13 @@ export function DestinyInventoryItemDefinitionContextProvider(props: any) {
 
   return (
     <>
-      <DestinyInventoryItemDefinitionContext.Provider value={itemDefinitions}>
-        {Object.keys(itemDefinitions).length > 0 ? props.children : <p>loading...</p>}
-      </DestinyInventoryItemDefinitionContext.Provider>
+      <ManifestContext.Provider value={itemDefinitions}>
+        {Object.keys(itemDefinitions).length > 0 ? (
+          props.children
+        ) : (
+          <p>loading...</p>
+        )}
+      </ManifestContext.Provider>
     </>
   );
 }

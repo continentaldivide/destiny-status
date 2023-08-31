@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import CharacterContainer from './_components/CharacterContainer';
 import SearchComponent from './_components/SearchResult';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
-import { DestinyInventoryItemDefinitionContextProvider } from './_context/DestinyInventoryItemDefinitionContext';
+import { ManifestContextProvider } from './_context/ManifestContext';
 
 const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
@@ -105,7 +105,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center pt-24">
-      <DestinyInventoryItemDefinitionContextProvider>
+      <ManifestContextProvider>
         <div className="flex flex-col items-center mt-2 gap-1">
           <input
             value={username}
@@ -122,7 +122,7 @@ export default function Home() {
             itemInstances={itemInstances}
           />
         ) : null}
-      </DestinyInventoryItemDefinitionContextProvider>
+      </ManifestContextProvider>
     </main>
   );
 }
