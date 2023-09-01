@@ -25,7 +25,14 @@ export default function Character({
       if (itemInstances[itemInstanceIds[i]].primaryStat) {
         powerLevel = itemInstances[itemInstanceIds[i]].primaryStat.value;
       }
-      return <Item itemHash={item} powerLevel={powerLevel} key={i} />;
+      return (
+        <Item
+          itemHash={item}
+          powerLevel={powerLevel}
+          itemInstance={itemInstances[itemInstanceIds[i]]}
+          key={i}
+        />
+      );
     });
     setItemComponents(itemComponents);
   }, [itemHashes]);

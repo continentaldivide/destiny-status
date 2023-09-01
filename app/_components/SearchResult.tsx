@@ -4,7 +4,7 @@ type Props = {
   handleUserClick: () => void;
 };
 
-export default function SearchComponent({
+export default function SearchResult({
   displayName,
   displayNameCode,
   handleUserClick,

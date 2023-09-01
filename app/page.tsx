@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import CharacterContainer from './_components/CharacterContainer';
-import SearchComponent from './_components/SearchResult';
+import SearchResult from './_components/SearchResult';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
 import { ManifestContextProvider } from './_context/ManifestContext';
 
@@ -50,7 +50,7 @@ export default function Home() {
     }
     const searchResultComponents = searchResults.map((searchResult, i) => {
       return (
-        <SearchComponent
+        <SearchResult
           displayName={searchResult.bungieGlobalDisplayName}
           displayNameCode={searchResult.bungieGlobalDisplayNameCode.toString()}
           handleUserClick={() =>
