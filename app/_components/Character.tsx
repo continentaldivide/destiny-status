@@ -21,14 +21,9 @@ export default function Character({
 
   useEffect(() => {
     const itemComponents = itemHashes.map((item, i) => {
-      let powerLevel = undefined;
-      if (itemInstances[itemInstanceIds[i]].primaryStat) {
-        powerLevel = itemInstances[itemInstanceIds[i]].primaryStat.value;
-      }
       return (
         <Item
           itemHash={item}
-          powerLevel={powerLevel}
           itemInstance={itemInstances[itemInstanceIds[i]]}
           key={i}
         />

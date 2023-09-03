@@ -5,17 +5,21 @@ import { DamageType } from '../_interfaces/manifestTables/DestinyDamageTypeDefin
 
 type Props = {
   itemHash: number;
-  powerLevel?: number;
   itemInstance: ItemInstanceType;
 };
 
-export default function Item({ itemHash, powerLevel, itemInstance }: Props) {
+export default function Item({ itemHash, itemInstance }: Props) {
   const { DestinyDamageTypeDefinition, DestinyInventoryItemDefinition } =
     useManifestContext();
   const item = DestinyInventoryItemDefinition[itemHash];
   let damageType: DamageType | undefined = undefined;
   if (itemInstance.damageTypeHash) {
     damageType = DestinyDamageTypeDefinition[itemInstance.damageTypeHash];
+  }
+
+  let powerLevel: number | undefined = undefined;
+  if (itemInstance.primaryStat) {
+    powerLevel = itemInstance.primaryStat.value;
   }
 
   return (
