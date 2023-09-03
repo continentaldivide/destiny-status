@@ -26,7 +26,6 @@ export default function Item({ itemHash, powerLevel, itemInstance }: Props) {
           alt=""
           width={80}
           height={80}
-          className="w-20"
         />
         {/* ternary below is a safeguard for items that don't have a content-source watermark (e.g. "generalist shell") */}
         {item.iconWatermark ? (
@@ -36,12 +35,11 @@ export default function Item({ itemHash, powerLevel, itemInstance }: Props) {
               alt=""
               width={80}
               height={80}
-              className="w-20"
             />
           </div>
         ) : null}
       </div>
-      <div className="grow text-right">
+      <div className="w-60 text-right">
         <div className="flex gap-1 justify-end">
           <p className="text-xl">{item.displayProperties.name}</p>
           {damageType ? (
