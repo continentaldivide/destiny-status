@@ -23,13 +23,14 @@ export default function Item({ itemHash, itemInstance }: Props) {
   }
 
   return (
-    <div className="flex border border-pink-300 w-80">
-      <div className="relative">
+    <div className="flex bg-slate-700 max-h-20 m-2 rounded-md">
+      <div className="relative border-r-2 border-slate-800">
         <Image
           src={`https://bungie.net${item.displayProperties.icon}`}
           alt=""
           width={80}
           height={80}
+          className="rounded-l-lg"
         />
         {/* ternary below is a safeguard for items that don't have a content-source watermark (e.g. "generalist shell") */}
         {item.iconWatermark ? (
@@ -39,20 +40,20 @@ export default function Item({ itemHash, itemInstance }: Props) {
               alt=""
               width={80}
               height={80}
+              className="rounded-l-lg"
             />
           </div>
         ) : null}
       </div>
-      <div className="w-60 text-right">
+      <div className="w-60 text-right p-2">
         <div className="flex gap-1 justify-end">
-          <p className="text-xl">{item.displayProperties.name}</p>
+          <p>{item.displayProperties.name}</p>
           {damageType ? (
             <Image
               src={`https://bungie.net${damageType.displayProperties.icon}`}
               alt=""
-              width={80}
-              height={80}
-              className="w-8"
+              width={30}
+              height={30}
             />
           ) : null}
         </div>
