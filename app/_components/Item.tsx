@@ -67,7 +67,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
           ) : null}
         </div>
         <div className="flex gap-0.5 justify-end">
-          {powerLevel ? <p className="text-sm bold">{powerLevel}</p> : null}
+          {powerLevel ? <p className="text-sm font-semibold">{powerLevel}</p> : null}
           {powerLevel ? (
             <Image
               src={`https://bungie.net${powerIconPath}`}
