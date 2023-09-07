@@ -54,7 +54,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
           </div>
         ) : null}
       </div>
-      <div className="w-60 text-right p-2">
+      <div className="w-60 p-2 flex flex-col justify-between">
         <div className="flex gap-1 justify-end">
           <p>{item.displayProperties.name}</p>
           {damageType ? (
@@ -66,15 +66,17 @@ export default function Item({ itemHash, itemInstance }: Props) {
             />
           ) : null}
         </div>
-        {powerLevel ? <p className="text-sm bold">{powerLevel}</p> : null}
-        {powerLevel ? (
-          <Image
-            src={`https://bungie.net${powerIconPath}`}
-            alt=""
-            width={20}
-            height={20}
-          />
-        ) : null}
+        <div className="flex gap-0.5 justify-end">
+          {powerLevel ? <p className="text-sm bold">{powerLevel}</p> : null}
+          {powerLevel ? (
+            <Image
+              src={`https://bungie.net${powerIconPath}`}
+              alt=""
+              width={20}
+              height={20}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );
