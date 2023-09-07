@@ -1,4 +1,5 @@
 import { useManifestContext } from '../_context/ManifestContext';
+import { usePlayerContext } from '../_context/PlayerContext';
 import Image from 'next/image';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import { DamageType } from '../_interfaces/manifestTables/DestinyDamageTypeDefinition.interface';
@@ -14,6 +15,8 @@ export default function Item({ itemHash, itemInstance }: Props) {
     DestinyInventoryItemDefinition,
     DestinyStatDefinition,
   } = useManifestContext();
+
+  const sampleText = usePlayerContext();
 
   const item = DestinyInventoryItemDefinition[itemHash];
   let damageType: DamageType | undefined = undefined;
@@ -66,8 +69,11 @@ export default function Item({ itemHash, itemInstance }: Props) {
             />
           ) : null}
         </div>
+        <p>{sampleText}</p>
         <div className="flex gap-0.5 justify-end">
-          {powerLevel ? <p className="text-sm font-semibold">{powerLevel}</p> : null}
+          {powerLevel ? (
+            <p className="text-sm font-semibold">{powerLevel}</p>
+          ) : null}
           {powerLevel ? (
             <Image
               src={`https://bungie.net${powerIconPath}`}

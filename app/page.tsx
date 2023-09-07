@@ -5,6 +5,7 @@ import CharacterContainer from './_components/CharacterContainer';
 import SearchResult from './_components/SearchResult';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
 import { ManifestContextProvider } from './_context/ManifestContext';
+import { PlayerContextProvider } from './_context/PlayerContext';
 
 const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
@@ -116,12 +117,14 @@ export default function Home() {
           {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
           {searchResultComponents.length ? searchResultsContainer : null}
         </div>
-        {characterData && itemInstances ? (
-          <CharacterContainer
-            characterData={characterData}
-            itemInstances={itemInstances}
-          />
-        ) : null}
+        <PlayerContextProvider>
+          {characterData && itemInstances ? (
+            <CharacterContainer
+              characterData={characterData}
+              itemInstances={itemInstances}
+            />
+          ) : null}
+        </PlayerContextProvider>
       </ManifestContextProvider>
     </main>
   );
