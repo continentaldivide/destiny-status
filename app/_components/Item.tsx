@@ -9,8 +9,12 @@ type Props = {
 };
 
 export default function Item({ itemHash, itemInstance }: Props) {
-  const { DestinyDamageTypeDefinition, DestinyInventoryItemDefinition } =
-    useManifestContext();
+  const {
+    DestinyDamageTypeDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyStatDefinition,
+  } = useManifestContext();
+
   const item = DestinyInventoryItemDefinition[itemHash];
   let damageType: DamageType | undefined = undefined;
   if (itemInstance.damageTypeHash) {
@@ -18,18 +22,24 @@ export default function Item({ itemHash, itemInstance }: Props) {
   }
 
   let powerLevel: number | undefined = undefined;
-  if (itemInstance.primaryStat) {
+  let powerIconPath: string | undefined = undefined;
+
+  // there are a few primaryStats that I'm leaning towards not showing the user (mainly, sparrow speed) -- for now, we'll add a second conditional to exclude values low enough that they clearly represent something other than power...may reconsider this later though
+  if (itemInstance.primaryStat && itemInstance.primaryStat.value >= 1600) {
     powerLevel = itemInstance.primaryStat.value;
+    // hash below is for the "power" stat so we can get a link to its icon, the path of which seems to be variable over time.  reluctant to lean too heavily on a hardcoded value here, but it *looks* like manifest entities don't have their hashes change, at least not commonly.  probably worth revisiting this to see if there's a more systematic way to source the icon URL
+    powerIconPath = DestinyStatDefinition[1935470627].displayProperties.icon;
   }
 
   return (
-    <div className="flex border border-pink-300 w-80">
-      <div className="relative">
+    <div className="flex bg-slate-700 max-h-20 m-2 rounded-md">
+      <div className="relative border-r-2 border-slate-800">
         <Image
           src={`https://bungie.net${item.displayProperties.icon}`}
           alt=""
           width={80}
           height={80}
+          className="rounded-l-lg"
         />
         {/* ternary below is a safeguard for items that don't have a content-source watermark (e.g. "generalist shell") */}
         {item.iconWatermark ? (
@@ -39,24 +49,34 @@ export default function Item({ itemHash, itemInstance }: Props) {
               alt=""
               width={80}
               height={80}
+              className="rounded-l-lg"
             />
           </div>
         ) : null}
       </div>
-      <div className="w-60 text-right">
+      <div className="w-60 p-2 flex flex-col justify-between">
         <div className="flex gap-1 justify-end">
-          <p className="text-xl">{item.displayProperties.name}</p>
+          <p>{item.displayProperties.name}</p>
           {damageType ? (
             <Image
               src={`https://bungie.net${damageType.displayProperties.icon}`}
               alt=""
-              width={80}
-              height={80}
-              className="w-8"
+              width={30}
+              height={30}
             />
           ) : null}
         </div>
-        {powerLevel ? <p className="text-sm bold">{powerLevel}</p> : null}
+        <div className="flex gap-0.5 justify-end">
+          {powerLevel ? <p className="text-sm font-semibold">{powerLevel}</p> : null}
+          {powerLevel ? (
+            <Image
+              src={`https://bungie.net${powerIconPath}`}
+              alt=""
+              width={20}
+              height={20}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );

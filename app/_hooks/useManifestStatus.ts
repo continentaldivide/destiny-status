@@ -28,13 +28,13 @@ export function useManifestStatus() {
     const {
       DestinyDamageTypeDefinition,
       DestinyInventoryItemDefinition,
-      DestinyMilestoneDefinition,
+      DestinyStatDefinition,
     } = await response.json();
 
     set('manifest', {
       DestinyDamageTypeDefinition,
       DestinyInventoryItemDefinition,
-      DestinyMilestoneDefinition,
+      DestinyStatDefinition,
     });
   };
 
