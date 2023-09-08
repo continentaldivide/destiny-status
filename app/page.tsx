@@ -7,8 +7,6 @@ import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
 import { ManifestContextProvider } from './_context/ManifestContext';
 import { PlayerContextProvider } from './_context/PlayerContext';
 
-const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
-
 export default function Home() {
   const [username, setUsername] = useState('');
   const [searchResults, setSearchResults] = useState<PlayerSearchResultType[]>(
@@ -31,7 +29,7 @@ export default function Home() {
         return;
       }
       try {
-        const response = await fetch(`${URL}/api/bungie-user-search`, {
+        const response = await fetch(`api/bungie-user-search`, {
           method: 'POST',
           body: JSON.stringify({ username }),
         });
@@ -73,7 +71,7 @@ export default function Home() {
   };
 
   const fetchCharacters = async () => {
-    const response = await fetch(`${URL}/api/get-bungie-profile`, {
+    const response = await fetch(`api/get-bungie-profile`, {
       method: 'POST',
       body: JSON.stringify({
         membershipType: currentUserMembershipType,
