@@ -36,7 +36,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
 
   return (
     <div className="flex bg-slate-700 max-h-20 m-2 rounded-md">
-      <div className="relative border-r-2 border-slate-800">
+      <div className="relative border-r-2 border-gray-900">
         <Image
           src={`https://bungie.net${item.displayProperties.icon}`}
           alt=""
