@@ -115,7 +115,10 @@ export default function Home() {
           {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
           {searchResultComponents.length ? searchResultsContainer : null}
         </div>
-        <PlayerContextProvider>
+        <PlayerContextProvider
+          characterData={characterData}
+          itemInstances={itemInstances}
+        >
           {characterData && itemInstances ? (
             <CharacterContainer
               characterData={characterData}
