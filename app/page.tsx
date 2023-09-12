@@ -18,9 +18,13 @@ export default function Home() {
   const [currentUserMembershipId, setCurrentUserMembershipId] =
     useState<string>();
   const [currentUserMembershipType, setCurrentUserMembershipType] =
-    useState<string>();
+    useState<number>();
   const [characterData, setCharacterData] = useState();
   const [itemInstances, setItemInstances] = useState();
+  const [currentUserData, setCurrentUserData] = useState({
+    membershipId: '',
+    membershipType: 0,
+  });
 
   useEffect(() => {
     const fetchUsers = setTimeout(async () => {
@@ -67,7 +71,8 @@ export default function Home() {
 
   const handleUserClick = (membershipId: string, membershipType: number) => {
     setCurrentUserMembershipId(membershipId);
-    setCurrentUserMembershipType(membershipType.toString());
+    setCurrentUserMembershipType(membershipType);
+    setCurrentUserData({ membershipId, membershipType });
   };
 
   const fetchCharacters = async () => {
@@ -115,10 +120,7 @@ export default function Home() {
           {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
           {searchResultComponents.length ? searchResultsContainer : null}
         </div>
-        <PlayerContextProvider
-          characterData={characterData}
-          itemInstances={itemInstances}
-        >
+        <PlayerContextProvider currentUserData={currentUserData}>
           {characterData && itemInstances ? (
             <CharacterContainer
               characterData={characterData}
