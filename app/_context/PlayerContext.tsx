@@ -1,14 +1,12 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 
-export const PlayerContext = createContext<string | undefined>(undefined);
+export const PlayerContext = createContext<any>(undefined);
 
 export function PlayerContextProvider({ currentUserData, children }: any) {
   const [playerContextData, setPlayerContextData] = useState({
     characterData: '',
     itemInstances: 0,
   });
-
-  console.log(currentUserData);
 
   const fetchCharacters = async () => {
     const { membershipType, membershipId } = currentUserData;
@@ -43,7 +41,7 @@ export function PlayerContextProvider({ currentUserData, children }: any) {
   }, [currentUserData]);
 
   return (
-    <PlayerContext.Provider value={'player context'}>
+    <PlayerContext.Provider value={playerContextData}>
       {children}
     </PlayerContext.Provider>
   );

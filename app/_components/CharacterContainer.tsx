@@ -2,27 +2,21 @@
 
 import CharacterEquipmentType from '../_interfaces/CharacterEquipment.interface';
 import Character from './Character';
+import { usePlayerContext } from '../_context/PlayerContext';
 
-type Props = {
-  characterData: {
-    [key: string]: CharacterEquipmentType;
-  };
-  itemInstances: {};
-};
-
-export default function CharacterContainer({
-  characterData,
-  itemInstances,
-}: Props) {
+export default function CharacterContainer() {
+  const { characterData, itemInstances } = usePlayerContext();
   const characterIds = Object.keys(characterData);
-  
+
   const characters = characterIds.map((characterId, i) => {
-    const itemHashes = characterData[characterId].items.map((item) => {
+    const itemHashes = characterData[characterId].items.map((item: any) => {
       return item.itemHash;
     });
-    const itemInstanceIds = characterData[characterId].items.map((item) => {
-      return item.itemInstanceId;
-    });
+    const itemInstanceIds = characterData[characterId].items.map(
+      (item: any) => {
+        return item.itemInstanceId;
+      }
+    );
 
     return (
       <Character

@@ -15,12 +15,6 @@ export default function Home() {
   const [searchResultComponents, setSearchResultComponents] = useState<
     JSX.Element[]
   >([]);
-  const [currentUserMembershipId, setCurrentUserMembershipId] =
-    useState<string>();
-  const [currentUserMembershipType, setCurrentUserMembershipType] =
-    useState<number>();
-  const [characterData, setCharacterData] = useState();
-  const [itemInstances, setItemInstances] = useState();
   const [currentUserData, setCurrentUserData] = useState({
     membershipId: '',
     membershipType: 0,
@@ -70,36 +64,8 @@ export default function Home() {
   }, [searchResults]);
 
   const handleUserClick = (membershipId: string, membershipType: number) => {
-    setCurrentUserMembershipId(membershipId);
-    setCurrentUserMembershipType(membershipType);
     setCurrentUserData({ membershipId, membershipType });
   };
-
-  const fetchCharacters = async () => {
-    const response = await fetch(`api/get-bungie-profile`, {
-      method: 'POST',
-      body: JSON.stringify({
-        membershipType: currentUserMembershipType,
-        membershipId: currentUserMembershipId,
-      }),
-    });
-    const data = await response.json();
-    return [data.characterEquipment.data, data.itemComponents.instances.data];
-  };
-
-  useEffect(() => {
-    if (currentUserMembershipId && currentUserMembershipType) {
-      (async () => {
-        try {
-          const [characterData, itemInstances] = await fetchCharacters();
-          setCharacterData(characterData);
-          setItemInstances(itemInstances);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-    }
-  }, [currentUserMembershipId, currentUserMembershipType]);
 
   const searchResultsContainer = (
     <div className="max-h-60 w-60 overflow-auto bg-slate-900 border border-slate-500">
@@ -121,12 +87,7 @@ export default function Home() {
           {searchResultComponents.length ? searchResultsContainer : null}
         </div>
         <PlayerContextProvider currentUserData={currentUserData}>
-          {characterData && itemInstances ? (
-            <CharacterContainer
-              characterData={characterData}
-              itemInstances={itemInstances}
-            />
-          ) : null}
+          <CharacterContainer />
         </PlayerContextProvider>
       </ManifestContextProvider>
     </main>
