@@ -2,7 +2,15 @@ import { useState, useEffect, createContext, useContext } from 'react';
 
 export const PlayerContext = createContext<any>(undefined);
 
-export function PlayerContextProvider({ currentUserData, children }: any) {
+type Props = {
+  currentUserData: {
+    membershipId: string;
+    membershipType: number;
+  };
+  children: React.ReactNode;
+};
+
+export function PlayerContextProvider({ currentUserData, children }: Props) {
   const [playerContextData, setPlayerContextData] = useState({
     characterData: '',
     itemInstances: 0,
