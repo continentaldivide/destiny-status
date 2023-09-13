@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import Item from './Item';

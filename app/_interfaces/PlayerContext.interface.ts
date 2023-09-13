@@ -2,7 +2,7 @@ import ItemInstanceType from './InventoryItemInstance.interface';
 import CharacterEquipmentType from './CharacterEquipment.interface';
 
 export default interface PlayerContextType {
-  characterData: {
+  characterEquipment: {
     [key: string]: CharacterEquipmentType;
   };
   itemInstances: {

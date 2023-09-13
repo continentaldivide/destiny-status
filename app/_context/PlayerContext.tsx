@@ -14,7 +14,7 @@ type Props = {
 export function PlayerContextProvider({ currentUserData, children }: Props) {
   const [fetchedPlayerData, setFetchedPlayerData] = useState<PlayerContextType>(
     {
-      characterData: {},
+      characterEquipment: {},
       itemInstances: {},
     }
   );
@@ -30,7 +30,7 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
     });
     const { characterEquipment, itemComponents } = await response.json();
     return {
-      characterData: characterEquipment.data,
+      characterEquipment: characterEquipment.data,
       itemInstances: itemComponents.instances.data,
     };
   };
@@ -41,9 +41,8 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
     } else {
       (async () => {
         try {
-          console.log(currentUserData);
-          const { characterData, itemInstances } = await fetchCharacters();
-          setFetchedPlayerData({ characterData, itemInstances });
+          const { characterEquipment, itemInstances } = await fetchCharacters();
+          setFetchedPlayerData({ characterEquipment, itemInstances });
         } catch (error) {
           console.log(error);
         }
