@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext, useContext } from 'react';
+import PlayerContextType from '../_interfaces/PlayerContext.interface';
 
-export const PlayerContext = createContext<any>(undefined);
+const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
 type Props = {
   currentUserData: {
@@ -11,10 +12,12 @@ type Props = {
 };
 
 export function PlayerContextProvider({ currentUserData, children }: Props) {
-  const [playerContextData, setPlayerContextData] = useState({
-    characterData: '',
-    itemInstances: 0,
-  });
+  const [fetchedPlayerData, setFetchedPlayerData] = useState<PlayerContextType>(
+    {
+      characterData: {},
+      itemInstances: {},
+    }
+  );
 
   const fetchCharacters = async () => {
     const { membershipType, membershipId } = currentUserData;
@@ -40,7 +43,7 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
         try {
           console.log(currentUserData);
           const { characterData, itemInstances } = await fetchCharacters();
-          setPlayerContextData({ characterData, itemInstances });
+          setFetchedPlayerData({ characterData, itemInstances });
         } catch (error) {
           console.log(error);
         }
@@ -49,7 +52,7 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
   }, [currentUserData]);
 
   return (
-    <PlayerContext.Provider value={playerContextData}>
+    <PlayerContext.Provider value={fetchedPlayerData}>
       {children}
     </PlayerContext.Provider>
   );

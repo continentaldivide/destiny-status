@@ -9,9 +9,7 @@ import { get } from 'idb-keyval';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import ManifestType from '../_interfaces/Manifest.interface';
 
-export const ManifestContext = createContext<ManifestType | undefined>(
-  undefined
-);
+const ManifestContext = createContext<ManifestType | undefined>(undefined);
 
 type Props = {
   children: ReactNode;
