@@ -1,36 +1,26 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import Item from './Item';
+import { usePlayerContext } from '../_context/PlayerContext';
 
-type Props = {
-  itemHashes: number[];
-  itemInstanceIds: string[];
-  itemInstances: {
-    [key: string]: ItemInstanceType;
-  };
-};
+export default function Character({ characterId }: { characterId: string }) {
+  const { characterEquipment, itemInstances } = usePlayerContext();
 
-export default function Character({
-  itemHashes,
-  itemInstanceIds,
-  itemInstances,
-}: Props) {
-  const [itemComponents, setItemComponents] = useState<JSX.Element[]>();
+  const itemHashes = characterEquipment[characterId].items.map((item) => {
+    return item.itemHash;
+  });
 
-  useEffect(() => {
-    const itemComponents = itemHashes.map((item, i) => {
-      return (
-        <Item
-          itemHash={item}
-          itemInstance={itemInstances[itemInstanceIds[i]]}
-          key={i}
-        />
-      );
-    });
-    setItemComponents(itemComponents);
-  }, [itemHashes]);
+  const itemInstanceIds = characterEquipment[characterId].items.map((item) => {
+    return item.itemInstanceId;
+  });
+
+  const itemComponents = itemHashes.map((itemHash, i) => {
+    return (
+      <Item
+        itemHash={itemHash}
+        itemInstance={itemInstances[itemInstanceIds[i]]}
+        key={i}
+      />
+    );
+  });
 
   return <div className="rounded-md bg-gray-900">{itemComponents}</div>;
 }

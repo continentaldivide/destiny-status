@@ -5,8 +5,7 @@ import CharacterContainer from './_components/CharacterContainer';
 import SearchResult from './_components/SearchResult';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
 import { ManifestContextProvider } from './_context/ManifestContext';
-
-const URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+import { PlayerContextProvider } from './_context/PlayerContext';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -16,12 +15,10 @@ export default function Home() {
   const [searchResultComponents, setSearchResultComponents] = useState<
     JSX.Element[]
   >([]);
-  const [currentUserMembershipId, setCurrentUserMembershipId] =
-    useState<string>();
-  const [currentUserMembershipType, setCurrentUserMembershipType] =
-    useState<string>();
-  const [characterData, setCharacterData] = useState();
-  const [itemInstances, setItemInstances] = useState();
+  const [currentUserData, setCurrentUserData] = useState({
+    membershipId: '',
+    membershipType: 0,
+  });
 
   useEffect(() => {
     const fetchUsers = setTimeout(async () => {
@@ -30,7 +27,7 @@ export default function Home() {
         return;
       }
       try {
-        const response = await fetch(`${URL}/api/bungie-user-search`, {
+        const response = await fetch(`api/bungie-user-search`, {
           method: 'POST',
           body: JSON.stringify({ username }),
         });
@@ -67,35 +64,8 @@ export default function Home() {
   }, [searchResults]);
 
   const handleUserClick = (membershipId: string, membershipType: number) => {
-    setCurrentUserMembershipId(membershipId);
-    setCurrentUserMembershipType(membershipType.toString());
+    setCurrentUserData({ membershipId, membershipType });
   };
-
-  const fetchCharacters = async () => {
-    const response = await fetch(`${URL}/api/get-bungie-profile`, {
-      method: 'POST',
-      body: JSON.stringify({
-        membershipType: currentUserMembershipType,
-        membershipId: currentUserMembershipId,
-      }),
-    });
-    const data = await response.json();
-    return [data.characterEquipment.data, data.itemComponents.instances.data];
-  };
-
-  useEffect(() => {
-    if (currentUserMembershipId && currentUserMembershipType) {
-      (async () => {
-        try {
-          const [characterData, itemInstances] = await fetchCharacters();
-          setCharacterData(characterData);
-          setItemInstances(itemInstances);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-    }
-  }, [currentUserMembershipId, currentUserMembershipType]);
 
   const searchResultsContainer = (
     <div className="max-h-60 w-60 overflow-auto bg-slate-900 border border-slate-500">
@@ -116,12 +86,9 @@ export default function Home() {
           {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
           {searchResultComponents.length ? searchResultsContainer : null}
         </div>
-        {characterData && itemInstances ? (
-          <CharacterContainer
-            characterData={characterData}
-            itemInstances={itemInstances}
-          />
-        ) : null}
+        <PlayerContextProvider currentUserData={currentUserData}>
+          <CharacterContainer />
+        </PlayerContextProvider>
       </ManifestContextProvider>
     </main>
   );

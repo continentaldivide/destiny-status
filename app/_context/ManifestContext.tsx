@@ -1,13 +1,17 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  ReactNode,
+} from 'react';
 import { get } from 'idb-keyval';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import ManifestType from '../_interfaces/Manifest.interface';
 
-export const ManifestContext = createContext<ManifestType | undefined>(
-  undefined
-);
+const ManifestContext = createContext<ManifestType | undefined>(undefined);
 
-export function ManifestContextProvider(props: any) {
+export function ManifestContextProvider({ children }: { children: ReactNode }) {
   const newestManifestInStorage = useManifestStatus();
   const [manifest, setManifest] = useState<ManifestType | undefined>();
   const [manifestIsReady, setManifestIsReady] = useState(false);
@@ -23,7 +27,7 @@ export function ManifestContextProvider(props: any) {
 
   return (
     <ManifestContext.Provider value={manifest}>
-      {manifestIsReady ? props.children : <p>loading...</p>}
+      {manifestIsReady ? children : <p>loading...</p>}
     </ManifestContext.Provider>
   );
 }
