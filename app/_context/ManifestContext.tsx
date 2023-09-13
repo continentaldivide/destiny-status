@@ -11,11 +11,7 @@ import ManifestType from '../_interfaces/Manifest.interface';
 
 const ManifestContext = createContext<ManifestType | undefined>(undefined);
 
-type Props = {
-  children: ReactNode;
-};
-
-export function ManifestContextProvider({ children }: Props) {
+export function ManifestContextProvider({ children }: { children: ReactNode }) {
   const newestManifestInStorage = useManifestStatus();
   const [manifest, setManifest] = useState<ManifestType | undefined>();
   const [manifestIsReady, setManifestIsReady] = useState(false);
