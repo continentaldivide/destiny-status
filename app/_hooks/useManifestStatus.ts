@@ -17,9 +17,16 @@ export function useManifestStatus() {
   };
 
   // check latest manifest version against what's in keyval store
-  const compareManifestVersion = async (fetchedVersionNumber: string) => {
+  const compareStoredManifest = async (
+    newestVersionNumber: string,
+    requiredTables: string[]
+  ) => {
     const cacheManifestVersion = await get('cacheManifestVersion');
-    return cacheManifestVersion == fetchedVersionNumber;
+    const storedTables = await get('storedTables');
+    const storedManifestIsNewest = cacheManifestVersion === newestVersionNumber;
+    const storedManifestHasRequiredTables =
+      storedTables.join() === requiredTables.join();
+    return storedManifestIsNewest && storedManifestHasRequiredTables;
   };
 
   // fetch current manifest from bungie and save it in store
@@ -38,6 +45,12 @@ export function useManifestStatus() {
     });
   };
 
+  const requiredManifestTables = [
+    'DestinyDamageTypeDefinition',
+    'DestinyInventoryItemDefinition',
+    'DestinyStatDefinition',
+  ];
+
   // initial API request for manifest metadata
   useEffect(() => {
     (async () => {
@@ -47,14 +60,15 @@ export function useManifestStatus() {
     })();
   }, []);
 
-  // once the previous effect is complete and state has been updated, check for version match and fetch the latest manifest if stored version is out of date
+  // once the previous effect is complete and state has been updated, check for version match and fetch the latest manifest if stored version is out of date or if any required tables are missing
   useEffect(() => {
     if (manifestPath == '') return;
     (async () => {
-      const manifestVersionsMatch = await compareManifestVersion(
-        fetchedVersionNumber
+      const manifestUpToDate = await compareStoredManifest(
+        fetchedVersionNumber,
+        requiredManifestTables
       );
-      if (manifestVersionsMatch) {
+      if (manifestUpToDate) {
         console.log('stored manifest matches current version');
         setNewestManifestInStorage(true);
       } else {
@@ -64,6 +78,7 @@ export function useManifestStatus() {
         try {
           await fetchManifest();
           set('cacheManifestVersion', fetchedVersionNumber);
+          set('storedTables', requiredManifestTables);
           setNewestManifestInStorage(true);
         } catch (e) {
           console.error('Could not fetch manifest');
