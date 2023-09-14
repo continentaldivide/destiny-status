@@ -6,6 +6,7 @@ import {
   ReactNode,
 } from 'react';
 import { get } from 'idb-keyval';
+import LoadingScreen from '../_components/LoadingScreen';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import ManifestType from '../_interfaces/Manifest.interface';
 
@@ -27,7 +28,19 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
 
   return (
     <ManifestContext.Provider value={manifest}>
-      {manifestIsReady ? children : <p>loading...</p>}
+      {newestManifestInStorage ? (
+        manifestIsReady ? (
+          children
+        ) : (
+          // !manifestIsReady
+          <LoadingScreen loadingMessage={'Loading manifest...'} />
+        )
+      ) : (
+        // !newestManifestInStorage
+        <LoadingScreen
+          loadingMessage={'Checking for new data from Bungie...'}
+        />
+      )}
     </ManifestContext.Provider>
   );
 }
