@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import PlayerContextType from '../_interfaces/PlayerContext.interface';
 import { GetProfileResponseType } from '../_interfaces/BungieAPI/GetProfileResponse.interface';
+import CharacterEquipmentType from '../_interfaces/CharacterEquipment.interface';
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
@@ -37,6 +38,19 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
     };
   };
 
+  // item.transferStatus 3 gets rid of each piece of 'equipment' that can't be transferred between characters: subclass, clan banner, emblem, emotes, and finishers.  ref https://bungie-net.github.io/multi/schema_Destiny-TransferStatuses.html#schema_Destiny-TransferStatuses
+  const sliceEquipment = (characterEquipment: {
+    [key: string]: CharacterEquipmentType;
+  }) => {
+    for (const character in characterEquipment) {
+      characterEquipment[character].items = characterEquipment[
+        character
+      ].items.filter((item) => {
+        return item.transferStatus !== 3;
+      });
+    }
+  };
+
   useEffect(() => {
     if (currentUserData.membershipId === '') {
       return;
@@ -44,7 +58,11 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
       (async () => {
         try {
           const { characterEquipment, itemInstances } = await fetchCharacters();
-          setFetchedPlayerData({ characterEquipment, itemInstances });
+          sliceEquipment(characterEquipment);
+          setFetchedPlayerData({
+            characterEquipment,
+            itemInstances,
+          });
         } catch (error) {
           console.log(error);
         }
