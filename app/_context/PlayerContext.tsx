@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import PlayerContextType from '../_interfaces/PlayerContext.interface';
+import { GetProfileResponseType } from '../_interfaces/BungieAPI/GetProfileResponse.interface';
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
@@ -28,7 +29,8 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
         membershipId,
       }),
     });
-    const { characterEquipment, itemComponents } = await response.json();
+    const { characterEquipment, itemComponents }: GetProfileResponseType =
+      await response.json();
     return {
       characterEquipment: characterEquipment.data,
       itemInstances: itemComponents.instances.data,
