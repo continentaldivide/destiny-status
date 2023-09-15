@@ -23,6 +23,9 @@ export function useManifestStatus() {
   ) => {
     const cacheManifestVersion = await get('cacheManifestVersion');
     const storedTables = await get('storedTables');
+    if (!storedTables) {
+      return false;
+    }
     const storedManifestIsNewest = cacheManifestVersion === newestVersionNumber;
     const storedManifestHasRequiredTables =
       storedTables.join() === requiredTables.join();
