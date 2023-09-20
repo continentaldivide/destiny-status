@@ -1,7 +1,7 @@
 export default interface ItemInstanceType {
   damageType: number;
   damageTypeHash?: number;
-  primaryStat: {
+  primaryStat?: {
     statHash: number;
     value: number;
   };
