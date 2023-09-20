@@ -1,4 +1,5 @@
 import Item from './Item';
+import MissingItem from './MissingItem';
 import { usePlayerContext } from '../_context/PlayerContext';
 
 export default function Character({ characterId }: { characterId: string }) {
@@ -21,6 +22,11 @@ export default function Character({ characterId }: { characterId: string }) {
       />
     );
   });
+
+  // character should contain 11 items: 3 weapons, 5 armor pieces, ghost, sparrow, ship
+  while (itemComponents.length < 11) {
+    itemComponents.push(<MissingItem />);
+  }
 
   return <div className="rounded-md bg-gray-900">{itemComponents}</div>;
 }
