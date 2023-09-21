@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Nav from './_components/Nav';
 import CharacterContainer from './_components/CharacterContainer';
 import SearchResult from './_components/SearchResult';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
@@ -74,22 +75,25 @@ export default function Home() {
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center pt-24">
-      <ManifestContextProvider>
-        <div className="flex flex-col items-center mt-2 gap-1">
-          <input
-            value={username}
-            placeholder="search by Bungie name..."
-            className="bg-slate-900 border border-slate-500 w-60"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
-          {searchResultComponents.length ? searchResultsContainer : null}
-        </div>
-        <PlayerContextProvider currentUserData={currentUserData}>
-          <CharacterContainer />
-        </PlayerContextProvider>
-      </ManifestContextProvider>
-    </main>
+    <>
+      <Nav setUsername={setUsername} />
+      <main className="flex min-h-screen flex-col items-center pt-24">
+        <ManifestContextProvider>
+          <div className="flex flex-col items-center mt-2 gap-1">
+            <input
+              value={username}
+              placeholder="search by Bungie name..."
+              className="bg-slate-900 border border-slate-500 w-60"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            {/* need to rewrite this to show the user some kind of difference between an empty input and an input that returned no results from Bungie */}
+            {searchResultComponents.length ? searchResultsContainer : null}
+          </div>
+          <PlayerContextProvider currentUserData={currentUserData}>
+            <CharacterContainer />
+          </PlayerContextProvider>
+        </ManifestContextProvider>
+      </main>
+    </>
   );
 }
