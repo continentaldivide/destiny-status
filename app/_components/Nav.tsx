@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-export default function Nav({ setUsername }) {
+type Props = {
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function Nav({ setUsername }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
   return (
-    <nav className="absolute w-full flex justify-center bg-slate-700 border-b-2 border-slate-100">
-      <form action="" className="flex w-1/3">
+    <nav className="absolute w-full flex justify-center bg-slate-700 border-b border-slate-500">
+      <form action="" className="flex">
         <input
           value={searchQuery}
           type="search"
-          placeholder="search for a destiny player"
+          placeholder="search by Bungie name..."
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="h-10 flex-grow text-2xl outline-none bg-green-200"
+          className="h-10 p-6 flex-grow text-2xl outline-none bg-slate-700"
         />
         <button
           type="submit"
@@ -20,7 +24,7 @@ export default function Nav({ setUsername }) {
             setUsername(searchQuery);
           }}
         >
-          <Image src="search.svg" alt="" width={40} height={40} />
+          <Image src="search.svg" alt="" width={36} height={36} />
         </button>
       </form>
     </nav>
