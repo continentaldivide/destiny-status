@@ -1,10 +1,10 @@
 import CharacterDataType from '../CharacterData.interface';
 
 export interface GetBasicProfileType {
-  Response: GetProfileResponseType;
+  Response: GetBasicProfileResponseType;
 }
 
-export interface GetProfileResponseType {
+export interface GetBasicProfileResponseType {
   characters: {
     data: {
       [key: string]: CharacterDataType;
