@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Nav from './_components/Nav';
 import CharacterContainer from './_components/CharacterContainer';
 import SearchResult from './_components/SearchResult';
+import useGenerateSearchResults from './_hooks/useGenerateSearchResults';
 import PlayerSearchResultType from './_interfaces/PlayerSearchResult.interface';
 import { ManifestContextProvider } from './_context/ManifestContext';
 import { PlayerContextProvider } from './_context/PlayerContext';
@@ -42,6 +43,14 @@ export default function Home() {
   }, [username]);
 
   useEffect(() => {
+    if (username.length === 0) {
+      return;
+    }
+    const searchResults = useGenerateSearchResults(username);
+    console.log(searchResults);
+  }, [username]);
+
+  useEffect(() => {
     if (searchResults.length === 0) {
       setSearchResultComponents([]);
       return;
@@ -69,7 +78,7 @@ export default function Home() {
   };
 
   const searchResultsContainer = (
-    <div className="max-h-60 w-60 overflow-auto bg-slate-900 border border-slate-500">
+    <div className="w-60 overflow-auto bg-slate-900 border border-slate-500">
       {searchResultComponents}
     </div>
   );

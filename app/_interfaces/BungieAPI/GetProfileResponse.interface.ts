@@ -7,7 +7,7 @@ export interface GetProfileType {
 }
 
 export interface GetProfileResponseType {
-  characters?: {
+  characters: {
     data: {
       [key: string]: CharacterDataType;
     };
