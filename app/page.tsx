@@ -76,9 +76,9 @@ export default function Home() {
 
   return (
     <>
-      <Nav setUsername={setUsername} />
-      <main className="flex min-h-screen flex-col items-center pt-24">
-        <ManifestContextProvider>
+      <ManifestContextProvider>
+        <Nav setUsername={setUsername} />
+        <main className="flex min-h-screen flex-col items-center pt-24">
           <div className="flex flex-col items-center mt-2 gap-1">
             <input
               value={username}
@@ -92,8 +92,8 @@ export default function Home() {
           <PlayerContextProvider currentUserData={currentUserData}>
             <CharacterContainer />
           </PlayerContextProvider>
-        </ManifestContextProvider>
-      </main>
+        </main>
+      </ManifestContextProvider>
     </>
   );
 }
