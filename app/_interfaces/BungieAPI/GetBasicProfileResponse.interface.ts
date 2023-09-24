@@ -1,7 +1,9 @@
 import CharacterDataType from '../CharacterData.interface';
 
 export interface GetBasicProfileType {
-  Response: GetBasicProfileResponseType;
+  Response?: GetBasicProfileResponseType;
+  ErrorCode: number;
+  ErrorStatus: string;
 }
 
 export interface GetBasicProfileResponseType {

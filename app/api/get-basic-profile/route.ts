@@ -16,6 +16,9 @@ export async function POST(request: NextRequest) {
       }
     );
     const data: GetBasicProfileType = await response.json();
+    if (data.ErrorCode === 1601) {
+      return null;
+    }
     return data.Response;
   };
 

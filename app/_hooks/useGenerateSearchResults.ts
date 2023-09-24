@@ -19,10 +19,10 @@ export default async function useGenerateSearchResults(username: string) {
   };
 
   const fetchedUsers: PlayerSearchResultType[] = await fetchUsers();
+
   const destinyUsers = fetchedUsers.filter((user) => {
     return user.destinyMemberships.length !== 0;
   });
-  console.log(destinyUsers);
 
   const fetchDestinyUserInfo = async (
     membershipType: number,
@@ -36,7 +36,6 @@ export default async function useGenerateSearchResults(username: string) {
       }),
     });
     const data = await response.json();
-    console.log(data);
     return data;
   };
 
@@ -44,13 +43,17 @@ export default async function useGenerateSearchResults(username: string) {
     destinyUsers.map(async (destinyUser) => {
       const membershipType = destinyUser.destinyMemberships[0].membershipType;
       const membershipId = destinyUser.destinyMemberships[0].membershipId;
-      const userInfo: GetBasicProfileResponseType = await fetchDestinyUserInfo(
-        membershipType,
-        membershipId
-      );
+      const userInfo: GetBasicProfileResponseType | null =
+        await fetchDestinyUserInfo(membershipType, membershipId);
       return userInfo;
     })
   );
 
-  return fetchedProfiles;
+  const validProfiles: GetBasicProfileResponseType[] = fetchedProfiles.filter(
+    (profile): profile is Exclude<typeof profile, null> => {
+      return profile !== null;
+    }
+  );
+
+  return validProfiles;
 }

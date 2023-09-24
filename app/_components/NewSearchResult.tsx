@@ -9,7 +9,7 @@ export default function NewSearchResult({
   return (
     <div>
       <p>hi</p>
-      {/* <p>{profileData.characters.data[characterIds[0]].dateLastPlayed}</p> */}
+      <p>{profileData.characters.data[characterIds[0]].dateLastPlayed}</p>
     </div>
   );
 }
