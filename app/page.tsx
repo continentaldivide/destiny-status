@@ -31,6 +31,7 @@ export default function Home() {
       setSearchResults(searchResults);
     };
     getSearchResults();
+    setCurrentUserData({ membershipId: '', membershipType: 0 });
   }, [username]);
 
   useEffect(() => {
@@ -65,7 +66,9 @@ export default function Home() {
         <main className="flex min-h-screen flex-col items-center pt-24">
           <PlayerContextProvider currentUserData={currentUserData}>
             {searchResultsContainer}
-            <CharacterContainer />
+            {currentUserData.membershipId === '' ? null : (
+              <CharacterContainer />
+            )}
           </PlayerContextProvider>
         </main>
       </ManifestContextProvider>
