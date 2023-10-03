@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { GetProfileType } from '@/app/_interfaces/BungieAPI/GetProfileResponse.interface';
+import { GetFullProfileType } from '@/app/_interfaces/BungieAPI/GetFullProfileResponse.interface';
 
 export async function POST(request: NextRequest) {
   const fetchProfileInfo = async () => {
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
         },
       }
     );
-    const data: GetProfileType = await response.json();
+    const data: GetFullProfileType = await response.json();
     return data.Response;
   };
 

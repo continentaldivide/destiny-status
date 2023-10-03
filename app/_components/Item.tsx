@@ -37,8 +37,8 @@ export default function Item({ itemHash, itemInstance }: Props) {
         <Image
           src={`https://bungie.net${item.displayProperties.icon}`}
           alt=""
-          width={80}
-          height={80}
+          width={64}
+          height={64}
           className="rounded-l-lg"
         />
         {/* ternary below is a safeguard for items that don't have a content-source watermark (e.g. "generalist shell") */}
@@ -47,8 +47,8 @@ export default function Item({ itemHash, itemInstance }: Props) {
             <Image
               src={`https://bungie.net${item.iconWatermark}`}
               alt=""
-              width={80}
-              height={80}
+              width={64}
+              height={64}
               className="rounded-l-lg"
             />
           </div>
@@ -61,8 +61,9 @@ export default function Item({ itemHash, itemInstance }: Props) {
             <Image
               src={`https://bungie.net${damageType.displayProperties.icon}`}
               alt=""
-              width={30}
-              height={30}
+              width={20}
+              height={20}
+              className="object-contain"
             />
           ) : null}
         </div>
