@@ -38,10 +38,17 @@ export default function Home() {
       setSearchResultComponents([]);
       return;
     }
+
+    const handleUserClick = (membershipId: string, membershipType: number) => {
+      setCurrentUserData({ membershipId, membershipType });
+      setSearchResultComponents([]);
+    };
+
     const searchResultComponents = searchResults.map((searchResult, i) => {
       return (
         <NewSearchResult
           profileData={searchResult}
+          handleUserClick={handleUserClick}
           key={`search result ${i}`}
         />
       );

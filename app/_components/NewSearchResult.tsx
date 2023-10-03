@@ -1,16 +1,27 @@
 import Image from 'next/image';
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 
+type Props = {
+  profileData: GetBasicProfileResponseType;
+  handleUserClick: (membershipId: string, membershipType: number) => void;
+};
 export default function NewSearchResult({
   profileData,
-}: {
-  profileData: GetBasicProfileResponseType;
-}) {
+  handleUserClick,
+}: Props) {
   const characterIds = Object.keys(profileData.characters.data);
   const profile = profileData.profile.data;
   const characters = profileData.characters.data;
   return (
-    <div className="relative m-2">
+    <div
+      onClick={() =>
+        handleUserClick(
+          profile.userInfo.membershipId,
+          profile.userInfo.membershipType
+        )
+      }
+      className="relative m-2 hover:cursor-pointer"
+    >
       <div className="absolute left-24 z-10 mt-4">
         <p className="text-2xl">
           {profile.userInfo.bungieGlobalDisplayName}#
