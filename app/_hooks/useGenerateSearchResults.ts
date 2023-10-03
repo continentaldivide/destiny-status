@@ -51,7 +51,12 @@ export default async function useGenerateSearchResults(username: string) {
 
   const validProfiles: GetBasicProfileResponseType[] = fetchedProfiles.filter(
     (profile): profile is Exclude<typeof profile, null> => {
-      return profile !== null;
+      let characterIds: string[];
+      profile === null
+        ? (characterIds = [])
+        : (characterIds = Object.keys(profile.characters.data));
+
+      return characterIds.length > 0;
     }
   );
 
