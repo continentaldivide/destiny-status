@@ -2,11 +2,7 @@ import CharacterDataType from '../CharacterData.interface';
 import CharacterEquipmentType from '../CharacterEquipment.interface';
 import ItemInstanceType from '../InventoryItemInstance.interface';
 
-export interface GetProfileType {
-  Response: GetProfileResponseType;
-}
-
-export interface GetProfileResponseType {
+export default interface GetFullProfileResponseType {
   characters: {
     data: {
       [key: string]: CharacterDataType;
