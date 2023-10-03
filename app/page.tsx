@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Nav from './_components/Nav';
 import CharacterContainer from './_components/CharacterContainer';
-import NewSearchResult from './_components/NewSearchResult';
+import SearchResult from './_components/SearchResult';
 import useGenerateSearchResults from './_hooks/useGenerateSearchResults';
 import { GetBasicProfileResponseType } from './_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 import { ManifestContextProvider } from './_context/ManifestContext';
@@ -47,7 +47,7 @@ export default function Home() {
 
     const searchResultComponents = searchResults.map((searchResult, i) => {
       return (
-        <NewSearchResult
+        <SearchResult
           profileData={searchResult}
           handleUserClick={handleUserClick}
           key={`search result ${i}`}
