@@ -53,6 +53,10 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
 
   useEffect(() => {
     if (currentUserData.membershipId === '') {
+      setFetchedPlayerData({
+        characterEquipment: {},
+        itemInstances: {},
+      });
       return;
     } else {
       (async () => {
