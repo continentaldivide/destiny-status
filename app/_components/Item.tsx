@@ -35,6 +35,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
     <div className="flex bg-slate-700 max-h-20 m-2 rounded-md">
       <div className="relative border-r-2 border-gray-900">
         <Image
+          unoptimized
           src={`https://bungie.net${item.displayProperties.icon}`}
           alt=""
           width={64}
@@ -45,6 +46,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
         {item.iconWatermark ? (
           <div className="absolute top-0">
             <Image
+              unoptimized
               src={`https://bungie.net${item.iconWatermark}`}
               alt=""
               width={64}
@@ -59,6 +61,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
           <p>{item.displayProperties.name}</p>
           {damageType ? (
             <Image
+              unoptimized
               src={`https://bungie.net${damageType.displayProperties.icon}`}
               alt=""
               width={20}
@@ -73,6 +76,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
           ) : null}
           {powerLevel ? (
             <Image
+              unoptimized
               src={`https://bungie.net${powerIconPath}`}
               alt=""
               width={20}
