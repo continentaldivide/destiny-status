@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Nav from './_components/Nav';
 import CharacterContainer from './_components/CharacterContainer';
-import SearchResult from './_components/SearchResult';
+import SearchResultContainer from './_components/SearchResultContainer';
 import useGenerateSearchResults from './_hooks/useGenerateSearchResults';
 import { GetBasicProfileResponseType } from './_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 import { ManifestContextProvider } from './_context/ManifestContext';
@@ -13,9 +13,6 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const [searchResults, setSearchResults] = useState<
     GetBasicProfileResponseType[]
-  >([]);
-  const [searchResultComponents, setSearchResultComponents] = useState<
-    JSX.Element[]
   >([]);
   const [currentUserData, setCurrentUserData] = useState({
     membershipId: '',
@@ -34,38 +31,17 @@ export default function Home() {
     setCurrentUserData({ membershipId: '', membershipType: 0 });
   }, [username]);
 
-  useEffect(() => {
-    if (searchResults.length === 0) {
-      setSearchResultComponents([]);
-      return;
-    }
-
-    const handleUserClick = (membershipId: string, membershipType: number) => {
-      setCurrentUserData({ membershipId, membershipType });
-      setSearchResultComponents([]);
-    };
-
-    const searchResultComponents = searchResults.map((searchResult, i) => {
-      return (
-        <SearchResult
-          profileData={searchResult}
-          handleUserClick={handleUserClick}
-          key={`search result ${i}`}
-        />
-      );
-    });
-    setSearchResultComponents(searchResultComponents);
-  }, [searchResults]);
-
-  const searchResultsContainer = <>{searchResultComponents}</>;
-
   return (
     <>
       <ManifestContextProvider>
         <Nav setUsername={setUsername} />
         <main className="flex min-h-screen flex-col items-center pt-24">
           <PlayerContextProvider currentUserData={currentUserData}>
-            {searchResultsContainer}
+            <SearchResultContainer
+              searchResults={searchResults}
+              setSearchResults={setSearchResults}
+              setCurrentUserData={setCurrentUserData}
+            />
             {currentUserData.membershipId === '' ? null : (
               <CharacterContainer />
             )}
