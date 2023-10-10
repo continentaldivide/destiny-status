@@ -38,8 +38,8 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
     };
   };
 
-  // item.transferStatus 3 gets rid of each piece of 'equipment' that can't be transferred between characters: subclass, clan banner, emblem, emotes, and finishers.  ref https://bungie-net.github.io/multi/schema_Destiny-TransferStatuses.html#schema_Destiny-TransferStatuses
-  const sliceEquipment = (characterEquipment: {
+  // item.transferStatus 3 gets rid of each piece of 'equipment' that can't be transferred between characters: subclass, clan banner, emblem, emotes, and finishers.  ref https://bungie-net.github.io/multi/schema_Destiny-TransferStatuses.html
+  const filterEquipment = (characterEquipment: {
     [key: string]: CharacterEquipmentType;
   }) => {
     for (const character in characterEquipment) {
@@ -53,12 +53,16 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
 
   useEffect(() => {
     if (currentUserData.membershipId === '') {
+      setFetchedPlayerData({
+        characterEquipment: {},
+        itemInstances: {},
+      });
       return;
     } else {
       (async () => {
         try {
           const { characterEquipment, itemInstances } = await fetchCharacters();
-          sliceEquipment(characterEquipment);
+          filterEquipment(characterEquipment);
           setFetchedPlayerData({
             characterEquipment,
             itemInstances,

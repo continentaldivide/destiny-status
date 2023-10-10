@@ -29,6 +29,7 @@ export default function SearchResult({ profileData, handleUserClick }: Props) {
         </p>
       </div>
       <Image
+        unoptimized
         src={`https://bungie.net${
           characters[characterIds[0]].emblemBackgroundPath
         }`}
