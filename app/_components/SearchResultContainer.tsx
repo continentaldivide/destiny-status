@@ -21,14 +21,14 @@ export default function SearchResultContainer({
     setSearchResults([]);
   };
   
-  const getPowerLevel = (acct: any) => {
+  const getPowerLevel = (acct: getBasicProfileResponseType) => {
     const firstCharacterId = Object.keys(acct.characters.data)[0]
     const firstCharacterObj = acct.characters.data[firstCharacterId]
     const powerLevelKey = 1935470627
     return firstCharacterObj.stats[powerLevelKey]
   }
 
-  // Tom wrote this code on github
+  // Tom wrote some of this code on github
   searchResults.sort(
     (a, b) =>
       getPowerLevel(b) - getPowerLevel(a)
