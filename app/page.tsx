@@ -10,6 +10,7 @@ import { ManifestContextProvider } from './_context/ManifestContext';
 import { PlayerContextProvider } from './_context/PlayerContext';
 
 export default function Home() {
+  const [fetchingData, setFetchingData] = useState(false);
   const [username, setUsername] = useState('');
   const [searchResults, setSearchResults] = useState<
     GetBasicProfileResponseType[]
@@ -24,8 +25,10 @@ export default function Home() {
       return;
     }
     const getSearchResults = async () => {
+      setFetchingData(true);
       const searchResults = await useGenerateSearchResults(username);
       setSearchResults(searchResults);
+      setFetchingData(false);
     };
     getSearchResults();
     setCurrentUserData({ membershipId: '', membershipType: 0 });
@@ -34,10 +37,12 @@ export default function Home() {
   return (
     <>
       <ManifestContextProvider>
-        <Nav setUsername={setUsername} />
+        <Nav fetchingData={fetchingData} setUsername={setUsername} />
         <main className="flex min-h-screen flex-col items-center pt-24">
           <PlayerContextProvider currentUserData={currentUserData}>
             <SearchResultContainer
+              username={username}
+              fetchingData={fetchingData}
               searchResults={searchResults}
               setSearchResults={setSearchResults}
               setCurrentUserData={setCurrentUserData}

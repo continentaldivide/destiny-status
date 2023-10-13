@@ -2,6 +2,8 @@ import SearchResult from './SearchResult';
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 
 type Props = {
+  username: string;
+  fetchingData: boolean;
   searchResults: GetBasicProfileResponseType[];
   setSearchResults: React.Dispatch<
     React.SetStateAction<GetBasicProfileResponseType[]>
@@ -12,6 +14,8 @@ type Props = {
 };
 
 export default function SearchResultContainer({
+  username,
+  fetchingData,
   searchResults,
   setSearchResults,
   setCurrentUserData,
@@ -37,5 +41,16 @@ export default function SearchResultContainer({
       />
     );
   });
-  return <>{searchResultComponents}</>;
+
+  if (fetchingData) {
+    return <p>searching for {username}...</p>;
+  }
+
+  return (
+    <>
+      {searchResults.length === 0 && username !== ''
+        ? `no results found for ${username}`
+        : searchResultComponents}
+    </>
+  );
 }
