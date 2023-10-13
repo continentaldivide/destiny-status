@@ -28,7 +28,7 @@ export default function SearchResultContainer({
     return firstCharacterObj.stats[powerLevelKey]
   }
 
-  // following sort operation is likely hard to follow due to the complicated shape of the data.  searchResult.characters.data is an object whose keys are strings containing characterIds.  We want to access data from the "first" characterId (as this is the information we're digging into in each SearchResult component).  Since that key is a different value in each searchResult, the most straightforward way to access it systematically is invoking Object.keys() here as well.  The stat we're sorting by at the end of the expression is the character's power level.
+  // Tom wrote this code on github
   searchResults.sort(
     (a, b) =>
       getPowerLevel(b) - getPowerLevel(a)
