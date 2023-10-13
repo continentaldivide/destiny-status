@@ -39,16 +39,20 @@ export default function Home() {
       <ManifestContextProvider>
         <Nav fetchingData={fetchingData} setUsername={setUsername} />
         <main className="flex min-h-screen flex-col items-center pt-24">
-          <PlayerContextProvider currentUserData={currentUserData}>
-            <SearchResultContainer
-              username={username}
-              fetchingData={fetchingData}
-              searchResults={searchResults}
-              setSearchResults={setSearchResults}
-              setCurrentUserData={setCurrentUserData}
-            />
-            {currentUserData.membershipId === '' ? null : (
-              <CharacterContainer />
+          <PlayerContextProvider
+            currentUserData={currentUserData}
+            setFetchingData={setFetchingData}
+          >
+            {currentUserData.membershipId === '' ? (
+              <SearchResultContainer
+                username={username}
+                fetchingData={fetchingData}
+                searchResults={searchResults}
+                setSearchResults={setSearchResults}
+                setCurrentUserData={setCurrentUserData}
+              />
+            ) : (
+              <CharacterContainer fetchingData={fetchingData} />
             )}
           </PlayerContextProvider>
         </main>
