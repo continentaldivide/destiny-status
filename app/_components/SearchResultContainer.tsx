@@ -21,7 +21,7 @@ export default function SearchResultContainer({
     setSearchResults([]);
   };
   
-  const getPowerLevel = (acct) => {
+  const getPowerLevel = (acct: any) => {
     const firstCharacterId = Object.keys(acct.characters.data)[0]
     const firstCharacterObj = acct.characters.data[firstCharacterId]
     const powerLevelKey = 1935470627
