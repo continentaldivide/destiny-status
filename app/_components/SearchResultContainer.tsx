@@ -1,4 +1,5 @@
 import SearchResult from './SearchResult';
+import LoadingSearchResult from './LoadingSearchResult';
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 
 type Props = {
@@ -48,6 +49,7 @@ export default function SearchResultContainer({
 
   return (
     <>
+      <LoadingSearchResult />
       {searchResults.length === 0 && username !== ''
         ? `no results found for ${username}`
         : searchResultComponents}
