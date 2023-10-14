@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        skeleton: 'shine 1.5s linear infinite',
+        "name-skeleton": 'name-shine 1.2s linear infinite',
       },
       colors: {
         'power-level': '#ffda88',
@@ -17,9 +17,9 @@ module.exports = {
         sans: ['var(--font-nunito)'],
       },
       keyframes: {
-        shine: {
-          '0%': { 'background-position': '-400px' },
-          '60%, 100%': { 'background-position': '600px' },
+        "name-shine": {
+          '0%': { 'background-position': '-200px' },
+          '60%, 100%': { 'background-position': '200px' },
         },
       },
     },

@@ -25,19 +25,16 @@ export default function SearchResultContainer({
     setCurrentUserData({ membershipId, membershipType });
     setSearchResults([]);
   };
-  
+
   const getPowerLevel = (acct: GetBasicProfileResponseType) => {
-    const firstCharacterId = Object.keys(acct.characters.data)[0]
-    const firstCharacterObj = acct.characters.data[firstCharacterId]
-    const powerLevelKey = 1935470627
-    return firstCharacterObj.stats[powerLevelKey]
-  }
+    const firstCharacterId = Object.keys(acct.characters.data)[0];
+    const firstCharacterObj = acct.characters.data[firstCharacterId];
+    const powerLevelKey = 1935470627;
+    return firstCharacterObj.stats[powerLevelKey];
+  };
 
   // Tom wrote some of this code on github
-  searchResults.sort(
-    (a, b) =>
-      getPowerLevel(b) - getPowerLevel(a)
-  );
+  searchResults.sort((a, b) => getPowerLevel(b) - getPowerLevel(a));
 
   const searchResultComponents = searchResults.map((searchResult, i) => {
     return (
