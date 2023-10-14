@@ -49,6 +49,7 @@ export default async function useGenerateSearchResults(username: string) {
     })
   );
 
+  // validProfiles is filtering for two criteria: first, we're removing any null items from the array.  These represent accounts that have something in their destinyMemberships array, but profile lookup returns a DestinyAccountNotFound error from the Bungie API (ref issue #22).  Second, we're filtering out accounts that have a lookup-able Destiny account, but don't actually have any characters.
   const validProfiles: GetBasicProfileResponseType[] = fetchedProfiles.filter(
     (profile): profile is Exclude<typeof profile, null> => {
       let characterIds: string[];
