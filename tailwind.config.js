@@ -19,7 +19,7 @@ module.exports = {
       keyframes: {
         "name-shine": {
           '0%': { 'background-position': '-200px' },
-          '60%, 100%': { 'background-position': '200px' },
+          '45%, 100%': { 'background-position': '200px' },
         },
       },
     },
