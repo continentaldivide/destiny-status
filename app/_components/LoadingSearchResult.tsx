@@ -1,8 +1,14 @@
 import Image from 'next/image';
 
-export default function LoadingSearchResult() {
+export default function LoadingSearchResult({
+  position,
+}: {
+  position: string;
+}) {
   return (
-    <div className="w-[474px] h-[96px] m-2 bg-slate-600 flex">
+    <div
+      className={`w-[474px] h-[96px] m-2 bg-slate-600 flex animate-fade-in-${position}`}
+    >
       <div className="mx-2 my-auto">
         <Image
           unoptimized
