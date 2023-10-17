@@ -5,9 +5,14 @@ export default function LoadingSearchResult({
 }: {
   position: string;
 }) {
+  const animations: any = {
+    one: 'animate-fade-in-one',
+    two: 'animate-fade-in-two',
+    three: 'animate-fade-in-three',
+  };
   return (
     <div
-      className={`w-[474px] h-[96px] m-2 bg-slate-600 flex animate-fade-in-${position}`}
+      className={`w-[474px] h-[96px] m-2 bg-slate-600 flex ${animations[position]}`}
     >
       <div className="mx-2 my-auto">
         <Image
