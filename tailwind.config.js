@@ -15,6 +15,7 @@ module.exports = {
       },
       colors: {
         'power-level': '#ffda88',
+        'legendary-purple': '#522f65',
       },
       fontFamily: {
         sans: ['var(--font-nunito)'],

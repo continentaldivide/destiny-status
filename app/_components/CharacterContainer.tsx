@@ -1,4 +1,5 @@
 import Character from './Character';
+import LoadingCharacterContainer from './LoadingCharacterContainer';
 import { usePlayerContext } from '../_context/PlayerContext';
 
 export default function CharacterContainer({
@@ -14,7 +15,7 @@ export default function CharacterContainer({
   });
 
   if (fetchingData) {
-    return <p>fetching equipment...</p>;
+    return <LoadingCharacterContainer />;
   }
 
   return <div className="flex gap-4">{characters}</div>;
