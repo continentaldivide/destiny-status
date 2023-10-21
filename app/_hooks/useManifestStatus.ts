@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { get, set } from 'idb-keyval';
 
+// This hook's role is to assess for the rest of the app whether the manifest tables we need are available in the client's browser storage, try to put them there if they're missing or out of date, and return a boolean confirming the outcome.
+
 export function useManifestStatus() {
   const [fetchedVersionNumber, setFetchedVersionNumber] = useState('');
   const [manifestPath, setManifestPath] = useState('');
