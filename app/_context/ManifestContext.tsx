@@ -13,9 +13,11 @@ import ManifestType from '../_interfaces/Manifest.interface';
 const ManifestContext = createContext<ManifestType | undefined>(undefined);
 
 export function ManifestContextProvider({ children }: { children: ReactNode }) {
-  const newestManifestInStorage = useManifestStatus();
+  const manifestStatus = useManifestStatus();
   const [manifest, setManifest] = useState<ManifestType | undefined>();
   const [manifestIsReady, setManifestIsReady] = useState(false);
+  const newestManifestInStorage =
+    manifestStatus === 'Newest manifest in storage';
 
   useEffect(() => {
     if (!newestManifestInStorage) return;
@@ -33,13 +35,11 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
           children
         ) : (
           // !manifestIsReady
-          <LoadingScreen loadingMessage={'Loading manifest...'} />
+          <LoadingScreen loadingMessage={'Loading item definitions...'} />
         )
       ) : (
         // !newestManifestInStorage
-        <LoadingScreen
-          loadingMessage={'Checking for new data from Bungie...'}
-        />
+        <LoadingScreen loadingMessage={manifestStatus} />
       )}
     </ManifestContext.Provider>
   );

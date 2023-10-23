@@ -1,7 +1,10 @@
 import SearchResult from './SearchResult';
+import LoadingSearchResultContainer from './LoadingSearchResultContainer';
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 
 type Props = {
+  username: string;
+  fetchingData: boolean;
   searchResults: GetBasicProfileResponseType[];
   setSearchResults: React.Dispatch<
     React.SetStateAction<GetBasicProfileResponseType[]>
@@ -12,6 +15,8 @@ type Props = {
 };
 
 export default function SearchResultContainer({
+  username,
+  fetchingData,
   searchResults,
   setSearchResults,
   setCurrentUserData,
@@ -20,19 +25,16 @@ export default function SearchResultContainer({
     setCurrentUserData({ membershipId, membershipType });
     setSearchResults([]);
   };
-  
+
   const getPowerLevel = (acct: GetBasicProfileResponseType) => {
-    const firstCharacterId = Object.keys(acct.characters.data)[0]
-    const firstCharacterObj = acct.characters.data[firstCharacterId]
-    const powerLevelKey = 1935470627
-    return firstCharacterObj.stats[powerLevelKey]
-  }
+    const firstCharacterId = Object.keys(acct.characters.data)[0];
+    const firstCharacterObj = acct.characters.data[firstCharacterId];
+    const powerLevelKey = 1935470627;
+    return firstCharacterObj.stats[powerLevelKey];
+  };
 
   // Tom wrote some of this code on github
-  searchResults.sort(
-    (a, b) =>
-      getPowerLevel(b) - getPowerLevel(a)
-  );
+  searchResults.sort((a, b) => getPowerLevel(b) - getPowerLevel(a));
 
   const searchResultComponents = searchResults.map((searchResult, i) => {
     return (
@@ -43,5 +45,16 @@ export default function SearchResultContainer({
       />
     );
   });
-  return <>{searchResultComponents}</>;
+
+  if (fetchingData) {
+    return <LoadingSearchResultContainer />;
+  }
+
+  return (
+    <>
+      {searchResults.length === 0 && username !== ''
+        ? `no results found for ${username}`
+        : searchResultComponents}
+    </>
+  );
 }

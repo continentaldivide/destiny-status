@@ -2,10 +2,19 @@
 import { useState, useEffect } from 'react';
 import { get, set } from 'idb-keyval';
 
+// This hook's role is to assess for ManifestContext whether the manifest tables we need are available in the client's browser storage, try to put them there if they're missing or out of date, and return a string expressing what step of the process is occurring.
+
 export function useManifestStatus() {
+  const manifestStatuses = {
+    checkingVersion: 'Checking for new Bungie data...',
+    downloadingManifest: 'Downloading new manifest from Bungie...',
+    manifestReady: 'Newest manifest in storage',
+  };
   const [fetchedVersionNumber, setFetchedVersionNumber] = useState('');
   const [manifestPath, setManifestPath] = useState('');
-  const [newestManifestInStorage, setNewestManifestInStorage] = useState(false);
+  const [manifestStatus, setManifestStatus] = useState(
+    manifestStatuses.checkingVersion
+  );
 
   // get the most recent manifest version number and its location
   const fetchManifestData = async () => {
@@ -34,6 +43,7 @@ export function useManifestStatus() {
 
   // fetch current manifest from bungie and save it in store
   const fetchManifest = async () => {
+    setManifestStatus(manifestStatuses.downloadingManifest);
     const response = await fetch(`https://www.bungie.net${manifestPath}`);
     const {
       DestinyDamageTypeDefinition,
@@ -73,7 +83,7 @@ export function useManifestStatus() {
       );
       if (manifestUpToDate) {
         console.log('stored manifest matches current version');
-        setNewestManifestInStorage(true);
+        setManifestStatus(manifestStatuses.manifestReady);
       } else {
         console.log(
           'stored manifest does not match current version -- downloading new manifest'
@@ -82,7 +92,8 @@ export function useManifestStatus() {
           await fetchManifest();
           set('cacheManifestVersion', fetchedVersionNumber);
           set('storedTables', requiredManifestTables);
-          setNewestManifestInStorage(true);
+
+          setManifestStatus(manifestStatuses.manifestReady);
         } catch (e) {
           console.error('Could not fetch manifest');
         }
@@ -90,5 +101,5 @@ export function useManifestStatus() {
     })();
   }, [manifestPath]);
 
-  return newestManifestInStorage;
+  return manifestStatus;
 }

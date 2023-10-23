@@ -2,10 +2,11 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 type Props = {
+  fetchingData: boolean;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function Nav({ setUsername }: Props) {
+export default function Nav({ fetchingData, setUsername }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
   return (
     <nav className="absolute w-full flex justify-center bg-slate-700 border-b border-slate-500">
@@ -23,6 +24,7 @@ export default function Nav({ setUsername }: Props) {
             e.preventDefault();
             setUsername(searchQuery);
           }}
+          disabled={fetchingData}
         >
           <Image src="search.svg" alt="" width={36} height={36} />
         </button>

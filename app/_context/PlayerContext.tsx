@@ -10,10 +10,15 @@ type Props = {
     membershipId: string;
     membershipType: number;
   };
+  setFetchingData: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
 };
 
-export function PlayerContextProvider({ currentUserData, children }: Props) {
+export function PlayerContextProvider({
+  currentUserData,
+  setFetchingData,
+  children,
+}: Props) {
   const [fetchedPlayerData, setFetchedPlayerData] = useState<PlayerContextType>(
     {
       characterEquipment: {},
@@ -23,6 +28,7 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
 
   const fetchCharacters = async () => {
     const { membershipType, membershipId } = currentUserData;
+    setFetchingData(true);
     const response = await fetch(`api/get-full-profile`, {
       method: 'POST',
       body: JSON.stringify({
@@ -32,6 +38,7 @@ export function PlayerContextProvider({ currentUserData, children }: Props) {
     });
     const { characterEquipment, itemComponents }: GetFullProfileResponseType =
       await response.json();
+    setFetchingData(false);
     return {
       characterEquipment: characterEquipment.data,
       itemInstances: itemComponents.instances.data,
