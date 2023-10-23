@@ -101,5 +101,5 @@ export function useManifestStatus() {
     })();
   }, [manifestPath]);
 
-  return { manifestStatus };
+  return manifestStatus;
 }

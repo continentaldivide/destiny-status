@@ -13,7 +13,7 @@ import ManifestType from '../_interfaces/Manifest.interface';
 const ManifestContext = createContext<ManifestType | undefined>(undefined);
 
 export function ManifestContextProvider({ children }: { children: ReactNode }) {
-  const { manifestStatus } = useManifestStatus();
+  const manifestStatus = useManifestStatus();
   const [manifest, setManifest] = useState<ManifestType | undefined>();
   const [manifestIsReady, setManifestIsReady] = useState(false);
   const newestManifestInStorage =
