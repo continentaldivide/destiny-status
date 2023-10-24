@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from 'react';
 import { get } from 'idb-keyval';
-import LoadingScreen from '../_components/LoadingScreen';
+import LoadingScreen from '../_components/Loading/LoadingScreen';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import ManifestType from '../_interfaces/Manifest.interface';
 
