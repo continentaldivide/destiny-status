@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Nav from './_components/Nav';
+import InstructionsModal from './_components/InstructionsModal';
 import CharacterContainer from './_components/CharacterContainer';
 import SearchResultContainer from './_components/SearchResultContainer';
 import useGenerateSearchResults from './_hooks/useGenerateSearchResults';
@@ -11,6 +12,7 @@ import { PlayerContextProvider } from './_context/PlayerContext';
 
 export default function Home() {
   const [fetchingData, setFetchingData] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(true);
   const [username, setUsername] = useState('');
   const [searchResults, setSearchResults] = useState<
     GetBasicProfileResponseType[]
@@ -39,6 +41,11 @@ export default function Home() {
       <ManifestContextProvider>
         <Nav fetchingData={fetchingData} setUsername={setUsername} />
         <main className="flex min-h-screen flex-col items-center pt-24">
+          <InstructionsModal
+            isOpen={modalIsOpen}
+            handleClose={() => setModalIsOpen(false)}
+          />
+          <button onClick={() => setModalIsOpen(true)}>show modal</button>
           <PlayerContextProvider
             currentUserData={currentUserData}
             setFetchingData={setFetchingData}
