@@ -41,10 +41,9 @@ export default function Home() {
       <ManifestContextProvider>
         <Nav fetchingData={fetchingData} setUsername={setUsername} />
         <main className="flex min-h-screen flex-col items-center pt-24">
-          <InstructionsModal
-            isOpen={modalIsOpen}
-            handleClose={() => setModalIsOpen(false)}
-          />
+          {modalIsOpen && (
+            <InstructionsModal onClose={() => setModalIsOpen(false)} />
+          )}
           <button onClick={() => setModalIsOpen(true)}>show modal</button>
           <PlayerContextProvider
             currentUserData={currentUserData}
