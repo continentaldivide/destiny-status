@@ -16,12 +16,12 @@ export default function InstructionsModal({ onClose }: Props) {
   }, []);
 
   return (
-    <>
+    <div className="">
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-neutral-900/40 z-50"
+        className="fixed inset-0 bg-neutral-900/40 z-50 animate-modal-bg-fade"
       ></div>
-      <div className="fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-1/4 bg-blue-950  border-pink-200 rounded-md z-50">
+      <div className="fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-1/4 bg-blue-950 rounded-md z-50 animate-modal-appear">
         <div className="flex flex-col gap-2 items-center m-4">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -40,6 +40,6 @@ export default function InstructionsModal({ onClose }: Props) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

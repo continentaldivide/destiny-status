@@ -13,6 +13,8 @@ module.exports = {
         'fade-in-one': 'fade-in-one 3s linear infinite',
         'fade-in-two': 'fade-in-two 3s linear infinite',
         'fade-in-three': 'fade-in-three 3s linear infinite',
+        'modal-bg-fade': 'modal-bg-fade .1s linear',
+        'modal-appear': 'modal-appear .2s ease-out',
       },
       colors: {
         'power-level': '#ffda88',
@@ -41,6 +43,14 @@ module.exports = {
         'fade-in-three': {
           '0%, 60%, 100%': { opacity: '0' },
           '90%': { opacity: '1' },
+        },
+        'modal-bg-fade': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'modal-appear': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
       },
     },
