@@ -12,7 +12,7 @@ import { PlayerContextProvider } from './_context/PlayerContext';
 
 export default function Home() {
   const [fetchingData, setFetchingData] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [searchResults, setSearchResults] = useState<
     GetBasicProfileResponseType[]
@@ -21,6 +21,13 @@ export default function Home() {
     membershipId: '',
     membershipType: 0,
   });
+
+  useEffect(() => {
+    const modalViewedStatus = localStorage.getItem('new-user-instructions');
+    if (modalViewedStatus !== 'viewed') {
+      setModalIsOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (username.length === 0) {
@@ -36,14 +43,17 @@ export default function Home() {
     setCurrentUserData({ membershipId: '', membershipType: 0 });
   }, [username]);
 
+  const handleModalClose = () => {
+    setModalIsOpen(false);
+    localStorage.setItem('new-user-instructions', 'viewed');
+  };
+
   return (
     <>
       <ManifestContextProvider>
         <Nav fetchingData={fetchingData} setUsername={setUsername} />
         <main className="flex min-h-screen flex-col items-center pt-24">
-          {modalIsOpen && (
-            <InstructionsModal onClose={() => setModalIsOpen(false)} />
-          )}
+          {modalIsOpen && <InstructionsModal onClose={handleModalClose} />}
           <button onClick={() => setModalIsOpen(true)}>show modal</button>
           <PlayerContextProvider
             currentUserData={currentUserData}
