@@ -1,5 +1,5 @@
 import Character from './Character';
-import LoadingCharacterContainer from './LoadingCharacterContainer';
+import LoadingCharacterContainer from './Loading/LoadingCharacterContainer';
 import { usePlayerContext } from '../_context/PlayerContext';
 
 export default function CharacterContainer({

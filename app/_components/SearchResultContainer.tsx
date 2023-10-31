@@ -1,5 +1,5 @@
 import SearchResult from './SearchResult';
-import LoadingSearchResultContainer from './LoadingSearchResultContainer';
+import LoadingSearchResultContainer from './Loading/LoadingSearchResultContainer';
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 
 type Props = {
