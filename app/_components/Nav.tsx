@@ -15,7 +15,7 @@ export default function Nav({
   const [searchQuery, setSearchQuery] = useState('');
   return (
     <nav className="absolute w-full flex justify-center bg-slate-700 border-b border-slate-500">
-      <div className='flex relative justify-center w-3/4'>
+      <div className="flex relative justify-center w-3/4">
         <div className="absolute left-0 h-full pl-2 flex items-center">
           <p className="text-2xl font-bold">Destiny Status</p>
         </div>
@@ -40,10 +40,21 @@ export default function Nav({
         </form>
         <button
           onClick={handleInfoClick}
-          className="absolute right-0 h-full pr-2 hover:brightness-125"
+          className="absolute right-0 h-full pr-12 hover:brightness-125"
         >
           <img height="36" width="36" src="info.svg" />
         </button>
+        <a
+          target="_blank"
+          href="https://github.com/continentaldivide/destiny-status"
+        >
+          <img
+            height="36"
+            width="36"
+            src="https://cdn.simpleicons.org/github/CCCCCC/"
+            className="absolute right-0 h-full pr-2 hover:brightness-125"
+          />
+        </a>
       </div>
     </nav>
   );
