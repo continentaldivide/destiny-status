@@ -21,7 +21,9 @@ export function useManifestStatus() {
     const response = await fetch(
       'https://www.bungie.net/Platform/Destiny2/manifest/'
     );
+    console.log(response);
     const data = await response.json();
+    console.log(data);
     return [data.Response.version, data.Response.jsonWorldContentPaths.en];
   };
 
