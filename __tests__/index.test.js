@@ -1,15 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import Home from '../app/page';
-import '@testing-library/jest-dom';
+import MissingItem from '../app/_components/MissingItem';
 
-describe('Home', () => {
-  it('renders a heading', () => {
-    render(<Home />);
+describe('MissingItem', () => {
+  it('displays text', () => {
+    render(<MissingItem />);
 
-    const heading = screen.getByRole('heading', {
-      name: /welcome to next\.js!/i,
-    });
+    const text = screen.getByText('sparrow or ship not equipped');
 
-    expect(heading).toBeInTheDocument();
+    expect(text).toBeInTheDocument();
   });
 });
