@@ -28,6 +28,7 @@ export default function Nav({
             className="h-10 p-6 flex-grow text-2xl outline-none bg-slate-700"
           />
           <button
+            aria-label="submit"
             type="submit"
             onClick={(e) => {
               e.preventDefault();
