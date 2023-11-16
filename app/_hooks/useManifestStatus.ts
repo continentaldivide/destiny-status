@@ -22,7 +22,10 @@ export function useManifestStatus() {
       'https://www.bungie.net/Platform/Destiny2/manifest/'
     );
     const data = await response.json();
-    return [data.Response.version, data.Response.jsonWorldContentPaths.en];
+    return {
+      version: data.Response.version,
+      path: data.Response.jsonWorldContentPaths.en,
+    };
   };
 
   // check latest manifest version against what's in keyval store
@@ -67,7 +70,7 @@ export function useManifestStatus() {
   // initial API request for manifest metadata
   useEffect(() => {
     (async () => {
-      const [version, path] = await fetchManifestData();
+      const { version, path } = await fetchManifestData();
       setFetchedVersionNumber(version);
       setManifestPath(path);
     })();
