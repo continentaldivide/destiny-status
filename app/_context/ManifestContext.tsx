@@ -18,6 +18,7 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
   const [manifestIsReady, setManifestIsReady] = useState(false);
   const newestManifestInStorage =
     manifestStatus === 'Newest manifest in storage';
+  const badApiResponse = manifestStatus === 'Bad API response';
 
   useEffect(() => {
     if (!newestManifestInStorage) return;
@@ -28,19 +29,24 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
     })();
   }, [newestManifestInStorage]);
 
+  let pageContent: ReactNode;
+
+  if (manifestIsReady) {
+    pageContent = children;
+  } else if (newestManifestInStorage) {
+    pageContent = (
+      <LoadingScreen loadingMessage={'Loading item definitions...'} />
+    );
+  } else if (badApiResponse) {
+    // placeholder for a more fleshed-out notification re: API issues
+    pageContent = <LoadingScreen loadingMessage={manifestStatus} />;
+  } else {
+    pageContent = <LoadingScreen loadingMessage={manifestStatus} />;
+  }
+
   return (
     <ManifestContext.Provider value={manifest}>
-      {newestManifestInStorage ? (
-        manifestIsReady ? (
-          children
-        ) : (
-          // !manifestIsReady
-          <LoadingScreen loadingMessage={'Loading item definitions...'} />
-        )
-      ) : (
-        // !newestManifestInStorage
-        <LoadingScreen loadingMessage={manifestStatus} />
-      )}
+      {pageContent}
     </ManifestContext.Provider>
   );
 }
