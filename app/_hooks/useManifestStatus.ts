@@ -24,6 +24,12 @@ export function useManifestStatus() {
       'https://www.bungie.net/Platform/Destiny2/manifest/'
     );
     const data = await response.json();
+    if (!data.Response) {
+      return {
+        version: undefined,
+        path: undefined,
+      };
+    }
     return {
       version: data.Response.version,
       path: data.Response.jsonWorldContentPaths.en,
@@ -48,7 +54,6 @@ export function useManifestStatus() {
 
   // fetch current manifest from bungie and save it in store
   const fetchManifest = async () => {
-    setManifestStatus(manifestStatuses.downloadingManifest);
     const response = await fetch(`https://www.bungie.net${manifestPath}`);
     const {
       DestinyDamageTypeDefinition,
@@ -73,6 +78,10 @@ export function useManifestStatus() {
   useEffect(() => {
     (async () => {
       const { version, path } = await fetchManifestData();
+      if (!version || !path) {
+        setManifestStatus(manifestStatuses.badApiResponse);
+        return manifestStatus;
+      }
       setFetchedVersionNumber(version);
       setManifestPath(path);
     })();
@@ -94,6 +103,7 @@ export function useManifestStatus() {
           'stored manifest does not match current version -- downloading new manifest'
         );
         try {
+          setManifestStatus(manifestStatuses.downloadingManifest);
           await fetchManifest();
           set('cacheManifestVersion', fetchedVersionNumber);
           set('storedTables', requiredManifestTables);
