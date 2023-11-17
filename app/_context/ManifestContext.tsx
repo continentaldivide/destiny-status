@@ -16,9 +16,17 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
   const manifestStatus = useManifestStatus();
   const [manifest, setManifest] = useState<ManifestType | undefined>();
   const [manifestIsReady, setManifestIsReady] = useState(false);
-  const newestManifestInStorage =
-    manifestStatus === 'Newest manifest in storage';
-  const badApiResponse = manifestStatus === 'Bad API response';
+  const newestManifestInStorage = manifestStatus === 'manifestReady';
+  const badApiResponse = manifestStatus === 'badApiResponse';
+
+  const userMessages: {
+    [key: string]: string;
+  } = {
+    checkingVersion: 'Checking for new Bungie data...',
+    downloadingManifest: 'Downloading new manifest from Bungie...',
+    manifestReady: 'Loading item definitions...',
+    badApiResponse: 'Bad API response',
+  };
 
   useEffect(() => {
     if (!newestManifestInStorage) return;
@@ -33,15 +41,15 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
 
   if (manifestIsReady) {
     pageContent = children;
-  } else if (newestManifestInStorage) {
-    pageContent = (
-      <LoadingScreen loadingMessage={'Loading item definitions...'} />
-    );
   } else if (badApiResponse) {
     // placeholder for a more fleshed-out notification re: API issues
-    pageContent = <LoadingScreen loadingMessage={manifestStatus} />;
+    pageContent = (
+      <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
+    );
   } else {
-    pageContent = <LoadingScreen loadingMessage={manifestStatus} />;
+    pageContent = (
+      <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
+    );
   }
 
   return (
