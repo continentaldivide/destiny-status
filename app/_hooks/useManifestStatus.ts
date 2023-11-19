@@ -25,6 +25,7 @@ export function useManifestStatus() {
     );
     const data = await response.json();
     if (!data.Response) {
+      console.log('response:', response, 'data:', data);
       return {
         version: undefined,
         path: undefined,
