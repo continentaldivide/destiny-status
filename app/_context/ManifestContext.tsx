@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { get } from 'idb-keyval';
 import LoadingScreen from '../_components/Loading/LoadingScreen';
+import ErrorMessage from '../_components/ErrorMessage';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import ManifestType from '../_interfaces/Manifest.interface';
 
@@ -44,7 +45,8 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
   } else if (badApiResponse) {
     // placeholder for a more fleshed-out notification re: API issues
     pageContent = (
-      <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
+      // <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
+      <ErrorMessage />
     );
   } else {
     pageContent = (
