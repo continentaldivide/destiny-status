@@ -26,7 +26,6 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
     checkingVersion: 'Checking for new Bungie data...',
     downloadingManifest: 'Downloading new manifest from Bungie...',
     manifestReady: 'Loading item definitions...',
-    badApiResponse: 'Bad API response',
   };
 
   useEffect(() => {
@@ -43,11 +42,7 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
   if (manifestIsReady) {
     pageContent = children;
   } else if (badApiResponse) {
-    // placeholder for a more fleshed-out notification re: API issues
-    pageContent = (
-      // <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
-      <ErrorMessage />
-    );
+    pageContent = <ErrorMessage />;
   } else {
     pageContent = (
       <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
