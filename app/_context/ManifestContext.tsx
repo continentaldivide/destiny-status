@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { get } from 'idb-keyval';
 import LoadingScreen from '../_components/Loading/LoadingScreen';
+import ErrorMessage from '../_components/ErrorMessage';
 import { useManifestStatus } from '../_hooks/useManifestStatus';
 import ManifestType from '../_interfaces/Manifest.interface';
 
@@ -16,8 +17,16 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
   const manifestStatus = useManifestStatus();
   const [manifest, setManifest] = useState<ManifestType | undefined>();
   const [manifestIsReady, setManifestIsReady] = useState(false);
-  const newestManifestInStorage =
-    manifestStatus === 'Newest manifest in storage';
+  const newestManifestInStorage = manifestStatus === 'manifestReady';
+  const badApiResponse = manifestStatus === 'badApiResponse';
+
+  const userMessages: {
+    [key: string]: string;
+  } = {
+    checkingVersion: 'Checking for new Bungie data...',
+    downloadingManifest: 'Downloading new manifest from Bungie...',
+    manifestReady: 'Loading item definitions...',
+  };
 
   useEffect(() => {
     if (!newestManifestInStorage) return;
@@ -28,19 +37,21 @@ export function ManifestContextProvider({ children }: { children: ReactNode }) {
     })();
   }, [newestManifestInStorage]);
 
+  let pageContent: ReactNode;
+
+  if (manifestIsReady) {
+    pageContent = children;
+  } else if (badApiResponse) {
+    pageContent = <ErrorMessage />;
+  } else {
+    pageContent = (
+      <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
+    );
+  }
+
   return (
     <ManifestContext.Provider value={manifest}>
-      {newestManifestInStorage ? (
-        manifestIsReady ? (
-          children
-        ) : (
-          // !manifestIsReady
-          <LoadingScreen loadingMessage={'Loading item definitions...'} />
-        )
-      ) : (
-        // !newestManifestInStorage
-        <LoadingScreen loadingMessage={manifestStatus} />
-      )}
+      {pageContent}
     </ManifestContext.Provider>
   );
 }

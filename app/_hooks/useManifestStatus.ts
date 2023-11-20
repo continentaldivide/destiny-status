@@ -5,10 +5,12 @@ import { get, set } from 'idb-keyval';
 // This hook's role is to assess for ManifestContext whether the manifest tables we need are available in the client's browser storage, try to put them there if they're missing or out of date, and return a string expressing what step of the process is occurring.
 
 export function useManifestStatus() {
+  // probably a better solution for this, but the intent with manifestStatuses is (a) to make it easy to update and/or add statuses without accidentally overlooking a reference to one, and (b) for these to be 'developer' versions of the statuses to hand off to ManifestContext, where they can be 'translated' to user-facing messages as needed
   const manifestStatuses = {
-    checkingVersion: 'Checking for new Bungie data...',
-    downloadingManifest: 'Downloading new manifest from Bungie...',
-    manifestReady: 'Newest manifest in storage',
+    checkingVersion: 'checkingVersion',
+    downloadingManifest: 'downloadingManifest',
+    manifestReady: 'manifestReady',
+    badApiResponse: 'badApiResponse',
   };
   const [fetchedVersionNumber, setFetchedVersionNumber] = useState('');
   const [manifestPath, setManifestPath] = useState('');
@@ -22,7 +24,17 @@ export function useManifestStatus() {
       'https://www.bungie.net/Platform/Destiny2/manifest/'
     );
     const data = await response.json();
-    return [data.Response.version, data.Response.jsonWorldContentPaths.en];
+    if (!data.Response) {
+      console.log('response:', response, 'data:', data);
+      return {
+        version: undefined,
+        path: undefined,
+      };
+    }
+    return {
+      version: data.Response.version,
+      path: data.Response.jsonWorldContentPaths.en,
+    };
   };
 
   // check latest manifest version against what's in keyval store
@@ -43,7 +55,6 @@ export function useManifestStatus() {
 
   // fetch current manifest from bungie and save it in store
   const fetchManifest = async () => {
-    setManifestStatus(manifestStatuses.downloadingManifest);
     const response = await fetch(`https://www.bungie.net${manifestPath}`);
     const {
       DestinyDamageTypeDefinition,
@@ -67,7 +78,11 @@ export function useManifestStatus() {
   // initial API request for manifest metadata
   useEffect(() => {
     (async () => {
-      const [version, path] = await fetchManifestData();
+      const { version, path } = await fetchManifestData();
+      if (!version || !path) {
+        setManifestStatus(manifestStatuses.badApiResponse);
+        return manifestStatus;
+      }
       setFetchedVersionNumber(version);
       setManifestPath(path);
     })();
@@ -89,6 +104,7 @@ export function useManifestStatus() {
           'stored manifest does not match current version -- downloading new manifest'
         );
         try {
+          setManifestStatus(manifestStatuses.downloadingManifest);
           await fetchManifest();
           set('cacheManifestVersion', fetchedVersionNumber);
           set('storedTables', requiredManifestTables);
