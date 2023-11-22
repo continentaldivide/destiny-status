@@ -58,7 +58,7 @@ export default function Item({ itemHash, itemInstance }: Props) {
       </div>
       <div className="w-60 p-2 flex flex-col justify-between">
         <div className="flex gap-1 justify-end">
-          <p className="text-sm">{item.displayProperties.name}</p>
+          <p className="text-sm truncate">{item.displayProperties.name}</p>
           {damageType ? (
             <Image
               unoptimized
