@@ -1,6 +1,7 @@
 import SearchResult from './SearchResult';
 import LoadingSearchResultContainer from './Loading/LoadingSearchResultContainer';
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
+import { useState, useEffect } from 'react';
 
 type Props = {
   username: string;
@@ -21,6 +22,15 @@ export default function SearchResultContainer({
   setSearchResults,
   setCurrentUserData,
 }: Props) {
+  const [zeroResultsMessage, setZeroResultsMessage] = useState('');
+
+  useEffect(() => {
+    // without this useEffect to change zeroResultsMessage (i.e., with the message in place of the variable in the return), fetchingData changes too slowly and there's a brief moment where "no results found for X" is shown before the loading animation takes over.  This effect prevents that text from existing until at least one fetch has occurred.
+    if (fetchingData) {
+      setZeroResultsMessage(`no results found for ${username}`);
+    }
+  }, [fetchingData]);
+
   const handleUserClick = (membershipId: string, membershipType: number) => {
     setCurrentUserData({ membershipId, membershipType });
     setSearchResults([]);
@@ -53,7 +63,7 @@ export default function SearchResultContainer({
   return (
     <>
       {searchResults.length === 0 && username !== ''
-        ? `no results found for ${username}`
+        ? zeroResultsMessage
         : searchResultComponents}
     </>
   );
