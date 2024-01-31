@@ -31,6 +31,8 @@ export default function Item({ itemHash, itemInstance }: Props) {
     powerIconPath = DestinyStatDefinition[1935470627].displayProperties.icon;
   }
 
+  console.log(item.equippingBlock?.equipmentSlotTypeHash);
+
   return (
     <div className="flex bg-slate-700 max-h-20 m-2 rounded-md">
       <div className="relative border-r-2 border-gray-900">
