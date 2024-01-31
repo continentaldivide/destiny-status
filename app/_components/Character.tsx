@@ -1,9 +1,11 @@
 import Item from './Item';
 import MissingItem from './MissingItem';
 import { usePlayerContext } from '../_context/PlayerContext';
+import { useManifestContext } from '../_context/ManifestContext';
 
 export default function Character({ characterId }: { characterId: string }) {
   const { characterEquipment, itemInstances } = usePlayerContext();
+  const { DestinyInventoryItemDefinition } = useManifestContext();
 
   const itemHashes = characterEquipment[characterId].items.map((item) => {
     return item.itemHash;
@@ -14,10 +16,11 @@ export default function Character({ characterId }: { characterId: string }) {
   });
 
   const itemComponents = itemHashes.map((itemHash, i) => {
+    const item = DestinyInventoryItemDefinition[itemHash];
     return (
       <Item
-        itemHash={itemHash}
         itemInstance={itemInstances[itemInstanceIds[i]]}
+        item={item}
         key={i}
       />
     );

@@ -2,20 +2,17 @@ import { useManifestContext } from '../_context/ManifestContext';
 import Image from 'next/image';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import { DamageType } from '../_interfaces/manifestTables/DestinyDamageTypeDefinition.interface';
+import { ItemType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
 type Props = {
-  itemHash: number;
   itemInstance: ItemInstanceType;
+  item: ItemType;
 };
 
-export default function Item({ itemHash, itemInstance }: Props) {
-  const {
-    DestinyDamageTypeDefinition,
-    DestinyInventoryItemDefinition,
-    DestinyStatDefinition,
-  } = useManifestContext();
+export default function Item({ itemInstance, item }: Props) {
+  const { DestinyDamageTypeDefinition, DestinyStatDefinition } =
+    useManifestContext();
 
-  const item = DestinyInventoryItemDefinition[itemHash];
   let damageType: DamageType | undefined = undefined;
   if (itemInstance.damageTypeHash) {
     damageType = DestinyDamageTypeDefinition[itemInstance.damageTypeHash];
@@ -30,8 +27,6 @@ export default function Item({ itemHash, itemInstance }: Props) {
     // hash below is for the "power" stat so we can get a link to its icon, the path of which seems to be variable over time.  reluctant to lean too heavily on a hardcoded value here, but it *looks* like manifest entities don't have their hashes change, at least not commonly.  probably worth revisiting this to see if there's a more systematic way to source the icon URL
     powerIconPath = DestinyStatDefinition[1935470627].displayProperties.icon;
   }
-
-  console.log(item.equippingBlock?.equipmentSlotTypeHash);
 
   return (
     <div className="flex bg-slate-700 max-h-20 m-2 rounded-md">
