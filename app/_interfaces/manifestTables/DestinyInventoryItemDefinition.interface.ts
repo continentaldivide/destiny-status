@@ -4,7 +4,7 @@ export interface ItemType {
     icon: string;
   };
   equippingBlock?: {
-    equipmentSlotTypeHash: string;
+    equipmentSlotTypeHash: number;
   };
   flavorText: string;
   iconWatermark?: string;
