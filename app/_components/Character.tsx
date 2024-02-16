@@ -45,7 +45,7 @@ export default function Character({ characterId }: { characterId: string }) {
       <Item
         itemInstance={itemInstances[itemInstanceIds[i]]}
         item={item}
-        key={i}
+        key={`item ${i}`}
       />
     );
   });
@@ -55,7 +55,7 @@ export default function Character({ characterId }: { characterId: string }) {
       itemComponents.splice(
         i,
         0,
-        <MissingItem itemSlot={itemSlot[2]} key={i} />
+        <MissingItem itemSlot={itemSlot[2]} key={`missingitem ${i}`} />
       );
     }
   });
