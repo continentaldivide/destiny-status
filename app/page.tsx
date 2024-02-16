@@ -20,6 +20,7 @@ export default function Home() {
   const [currentUserData, setCurrentUserData] = useState({
     membershipId: '',
     membershipType: 0,
+    characterCount: 0,
   });
 
   useEffect(() => {
@@ -40,7 +41,11 @@ export default function Home() {
       setFetchingData(false);
     };
     getSearchResults();
-    setCurrentUserData({ membershipId: '', membershipType: 0 });
+    setCurrentUserData({
+      membershipId: '',
+      membershipType: 0,
+      characterCount: 0,
+    });
   }, [username]);
 
   const handleModalClose = () => {
@@ -71,7 +76,10 @@ export default function Home() {
                 setCurrentUserData={setCurrentUserData}
               />
             ) : (
-              <CharacterContainer fetchingData={fetchingData} />
+              <CharacterContainer
+                characterCount={currentUserData.characterCount}
+                fetchingData={fetchingData}
+              />
             )}
           </PlayerContextProvider>
         </main>

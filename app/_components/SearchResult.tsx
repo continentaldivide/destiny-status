@@ -3,7 +3,11 @@ import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicPr
 
 type Props = {
   profileData: GetBasicProfileResponseType;
-  handleUserClick: (membershipId: string, membershipType: number) => void;
+  handleUserClick: (
+    membershipId: string,
+    membershipType: number,
+    characterCount: number
+  ) => void;
 };
 export default function SearchResult({ profileData, handleUserClick }: Props) {
   const characterIds = Object.keys(profileData.characters.data);
@@ -14,7 +18,8 @@ export default function SearchResult({ profileData, handleUserClick }: Props) {
       onClick={() =>
         handleUserClick(
           profile.userInfo.membershipId,
-          profile.userInfo.membershipType
+          profile.userInfo.membershipType,
+          characterIds.length
         )
       }
       className="relative m-2 hover:cursor-pointer"

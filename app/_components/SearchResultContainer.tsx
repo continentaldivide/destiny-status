@@ -11,7 +11,11 @@ type Props = {
     React.SetStateAction<GetBasicProfileResponseType[]>
   >;
   setCurrentUserData: React.Dispatch<
-    React.SetStateAction<{ membershipId: string; membershipType: number }>
+    React.SetStateAction<{
+      membershipId: string;
+      membershipType: number;
+      characterCount: number;
+    }>
   >;
 };
 
@@ -31,8 +35,12 @@ export default function SearchResultContainer({
     }
   }, [fetchingData]);
 
-  const handleUserClick = (membershipId: string, membershipType: number) => {
-    setCurrentUserData({ membershipId, membershipType });
+  const handleUserClick = (
+    membershipId: string,
+    membershipType: number,
+    characterCount: number
+  ) => {
+    setCurrentUserData({ membershipId, membershipType, characterCount });
     setSearchResults([]);
   };
 
