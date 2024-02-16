@@ -2,20 +2,17 @@ import { useManifestContext } from '../_context/ManifestContext';
 import Image from 'next/image';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import { DamageType } from '../_interfaces/manifestTables/DestinyDamageTypeDefinition.interface';
+import { ItemType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
 type Props = {
-  itemHash: number;
   itemInstance: ItemInstanceType;
+  item: ItemType;
 };
 
-export default function Item({ itemHash, itemInstance }: Props) {
-  const {
-    DestinyDamageTypeDefinition,
-    DestinyInventoryItemDefinition,
-    DestinyStatDefinition,
-  } = useManifestContext();
+export default function Item({ itemInstance, item }: Props) {
+  const { DestinyDamageTypeDefinition, DestinyStatDefinition } =
+    useManifestContext();
 
-  const item = DestinyInventoryItemDefinition[itemHash];
   let damageType: DamageType | undefined = undefined;
   if (itemInstance.damageTypeHash) {
     damageType = DestinyDamageTypeDefinition[itemInstance.damageTypeHash];
