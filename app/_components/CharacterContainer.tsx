@@ -4,8 +4,10 @@ import { usePlayerContext } from '../_context/PlayerContext';
 
 export default function CharacterContainer({
   fetchingData,
+  characterCount,
 }: {
   fetchingData: boolean;
+  characterCount: number;
 }) {
   const { characterEquipment } = usePlayerContext();
   const characterIds = Object.keys(characterEquipment);
@@ -15,7 +17,7 @@ export default function CharacterContainer({
   });
 
   if (fetchingData) {
-    return <LoadingCharacterContainer />;
+    return <LoadingCharacterContainer characterCount={characterCount} />;
   }
 
   return <div className="flex gap-4">{characters}</div>;
