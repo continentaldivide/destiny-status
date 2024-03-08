@@ -10,8 +10,6 @@ export default interface ItemInstanceType {
   isEquipped: boolean;
   canEquip: boolean;
   equipRequiredLevel: number;
-  unlockHashesRequiredToEquip: {
-    [key: number]: number;
-  };
+  unlockHashesRequiredToEquip: Record<number, number>;
   cannotEquipReason: number;
 }
