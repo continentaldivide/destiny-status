@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { membershipType, membershipId } = body;
     const response = await fetch(
-      `https://www.bungie.net/platform/Destiny2/${membershipType}/Profile/${membershipId}/?components=205,300`,
+      `https://www.bungie.net/platform/Destiny2/${membershipType}/Profile/${membershipId}/?components=205,300,302`,
       {
         headers: {
           'Content-Type': 'application/json',
