@@ -9,25 +9,17 @@ export interface GetFullProfileType {
 
 export interface GetFullProfileResponseType {
   characters: {
-    data: {
-      [key: string]: CharacterDataType;
-    };
+    data: Record<string, CharacterDataType>;
   };
   characterEquipment: {
-    data: {
-      [key: string]: CharacterEquipmentType;
-    };
+    data: Record<string, CharacterEquipmentType>;
   };
   itemComponents: {
     instances: {
-      data: {
-        [key: string]: ItemInstanceType;
-      };
+      data: Record<string, ItemInstanceType>;
     };
     perks: {
-      data: {
-        [key: string]: ItemPerkType;
-      };
+      data: Record<string, {perks: ItemPerkType[]}>
     };
   };
 }

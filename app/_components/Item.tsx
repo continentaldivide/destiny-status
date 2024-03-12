@@ -1,17 +1,22 @@
-import { useManifestContext } from '../_context/ManifestContext';
 import Image from 'next/image';
+import { useManifestContext } from '../_context/ManifestContext';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
+import ItemPerkType from '../_interfaces/ItemPerk.interface';
 import { DamageType } from '../_interfaces/manifestTables/DestinyDamageTypeDefinition.interface';
 import { ItemType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
 type Props = {
   itemInstance: ItemInstanceType;
+  // ships have no perks, so itemPerks will necessarily be undefined for one item per character.  would like to come back to this and refactor in a way that can distinguish between this and unintentionally undefined results
+  itemPerks: { perks: ItemPerkType[] } | undefined;
   item: ItemType;
 };
 
-export default function Item({ itemInstance, item }: Props) {
+export default function Item({ itemInstance, itemPerks, item }: Props) {
   const { DestinyDamageTypeDefinition, DestinyStatDefinition } =
     useManifestContext();
+
+  console.log(item.displayProperties.name, itemPerks);
 
   let damageType: DamageType | undefined = undefined;
   if (itemInstance.damageTypeHash) {

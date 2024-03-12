@@ -4,7 +4,7 @@ import { usePlayerContext } from '../_context/PlayerContext';
 import { useManifestContext } from '../_context/ManifestContext';
 
 export default function Character({ characterId }: { characterId: string }) {
-  const { characterEquipment, itemInstances } = usePlayerContext();
+  const { characterEquipment, itemInstances, itemPerks } = usePlayerContext();
   const { DestinyInventoryItemDefinition } = useManifestContext();
 
   const itemSlots: [number, boolean, string][] = [
@@ -44,6 +44,7 @@ export default function Character({ characterId }: { characterId: string }) {
     return (
       <Item
         itemInstance={itemInstances[itemInstanceIds[i]]}
+        itemPerks={itemPerks[itemInstanceIds[i]]}
         item={item}
         key={`item ${i}`}
       />
