@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ItemPerk from './ItemPerk';
 import { useManifestContext } from '../_context/ManifestContext';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
 import ItemPerkType from '../_interfaces/ItemPerk.interface';
@@ -16,7 +17,17 @@ export default function Item({ itemInstance, itemPerks, item }: Props) {
   const { DestinyDamageTypeDefinition, DestinyStatDefinition } =
     useManifestContext();
 
-  console.log(item.displayProperties.name, itemPerks);
+  console.log(item.displayProperties.name, itemPerks, itemInstance);
+
+  let itemPerkComponents: any;
+
+  if (itemPerks) {
+    itemPerkComponents = itemPerks.perks.map(
+      (itemPerk: ItemPerkType, i: number) => {
+        return <ItemPerk key={`itemPerk ${i}`} />;
+      }
+    );
+  }
 
   let damageType: DamageType | undefined = undefined;
   if (itemInstance.damageTypeHash) {
@@ -72,7 +83,8 @@ export default function Item({ itemInstance, itemPerks, item }: Props) {
             />
           ) : null}
         </div>
-        <div className="flex gap-0.5 justify-end">
+        <div className="flex gap-0.5 items-center justify-end">
+          {itemPerkComponents}
           {powerLevel ? (
             <p className="text-sm font-semibold">{powerLevel}</p>
           ) : null}
