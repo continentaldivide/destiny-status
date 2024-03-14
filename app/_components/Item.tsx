@@ -66,6 +66,13 @@ export default function Item({ itemInstance, itemPerks, item }: Props) {
             />
           </div>
         ) : null}
+        <div className="absolute bottom-0 right-0 w-full text-power-level drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] bg-gradient-to-l from-slate-500/25">
+          {powerLevel ? (
+            <p className="text-sm text-end font-semibold pr-0.5">
+              {powerLevel}
+            </p>
+          ) : null}
+        </div>
       </div>
       <div className="w-60 p-2 flex flex-col justify-between">
         <div className="flex gap-1 justify-end">
@@ -83,18 +90,6 @@ export default function Item({ itemInstance, itemPerks, item }: Props) {
         </div>
         <div className="flex gap-0.5 items-center justify-end">
           {itemPerkComponents}
-          {powerLevel ? (
-            <p className="text-sm font-semibold">{powerLevel}</p>
-          ) : null}
-          {powerLevel ? (
-            <Image
-              unoptimized
-              src={`https://bungie.net${powerIconPath}`}
-              alt=""
-              width={20}
-              height={20}
-            />
-          ) : null}
         </div>
       </div>
     </div>
