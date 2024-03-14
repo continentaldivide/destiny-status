@@ -74,7 +74,7 @@ export default function Item({ itemInstance, itemPerks, item }: Props) {
           ) : null}
         </div>
       </div>
-      <div className="w-60 p-2 flex flex-col justify-between">
+      <div className="w-60 p-1 flex flex-col justify-around items-end">
         <div className="flex gap-1 justify-end">
           <p className="text-sm truncate">{item.displayProperties.name}</p>
           {damageType ? (
@@ -88,9 +88,11 @@ export default function Item({ itemInstance, itemPerks, item }: Props) {
             />
           ) : null}
         </div>
-        <div className="flex gap-0.5 items-center justify-end">
-          {itemPerkComponents}
-        </div>
+        {itemPerkComponents.length > 0 ? (
+          <div className="p-0.5 w-fit rounded-md flex gap-0.5 items-center justify-end bg-slate-800 shadow-black shadow-inner">
+            {itemPerkComponents}
+          </div>
+        ) : null}
       </div>
     </div>
   );
