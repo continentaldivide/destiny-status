@@ -4,23 +4,20 @@ import Image from 'next/image';
 
 export default function ItemPerk({ itemPerk }: { itemPerk: ItemPerkType }) {
   const { DestinySandboxPerkDefinition } = useManifestContext();
-  if (itemPerk.visible) {
-    console.log(DestinySandboxPerkDefinition[itemPerk.perkHash]);
+
+  if (!itemPerk.visible) {
+    return null;
   }
 
+  console.log(DestinySandboxPerkDefinition[itemPerk.perkHash]);
+
   return (
-    <div>
-      {itemPerk.visible ? (
-        <div>
-          <Image
-            unoptimized
-            src={`https://bungie.net${itemPerk.iconPath}`}
-            alt=""
-            width={24}
-            height={24}
-          />
-        </div>
-      ) : null}
-    </div>
+    <Image
+      unoptimized
+      src={`https://bungie.net${itemPerk.iconPath}`}
+      alt=""
+      width={24}
+      height={24}
+    />
   );
 }
