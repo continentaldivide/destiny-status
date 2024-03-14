@@ -17,14 +17,12 @@ export default function Item({ itemInstance, itemPerks, item }: Props) {
   const { DestinyDamageTypeDefinition, DestinyStatDefinition } =
     useManifestContext();
 
-  console.log(item.displayProperties.name, itemPerks, itemInstance);
-
-  let itemPerkComponents: any;
+  let itemPerkComponents: JSX.Element[] = [];
 
   if (itemPerks) {
     itemPerkComponents = itemPerks.perks.map(
       (itemPerk: ItemPerkType, i: number) => {
-        return <ItemPerk key={`itemPerk ${i}`} />;
+        return <ItemPerk itemPerk={itemPerk} key={`itemPerk ${i}`} />;
       }
     );
   }
