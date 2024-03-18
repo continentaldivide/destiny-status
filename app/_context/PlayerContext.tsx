@@ -23,6 +23,7 @@ export function PlayerContextProvider({
     {
       characterEquipment: {},
       itemInstances: {},
+      itemPerks: {},
     }
   );
 
@@ -42,6 +43,7 @@ export function PlayerContextProvider({
     return {
       characterEquipment: characterEquipment.data,
       itemInstances: itemComponents.instances.data,
+      itemPerks: itemComponents.perks.data,
     };
   };
 
@@ -63,16 +65,18 @@ export function PlayerContextProvider({
       setFetchedPlayerData({
         characterEquipment: {},
         itemInstances: {},
+        itemPerks: {},
       });
       return;
     } else {
       (async () => {
         try {
-          const { characterEquipment, itemInstances } = await fetchCharacters();
+          const { characterEquipment, itemInstances, itemPerks } = await fetchCharacters();
           filterEquipment(characterEquipment);
           setFetchedPlayerData({
             characterEquipment,
             itemInstances,
+            itemPerks
           });
         } catch (error) {
           console.log(error);

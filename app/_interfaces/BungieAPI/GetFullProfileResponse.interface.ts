@@ -1,6 +1,7 @@
 import CharacterDataType from '../CharacterData.interface';
 import CharacterEquipmentType from '../CharacterEquipment.interface';
 import ItemInstanceType from '../InventoryItemInstance.interface';
+import ItemPerkType from '../ItemPerk.interface';
 
 export interface GetFullProfileType {
   Response: GetFullProfileResponseType;
@@ -8,20 +9,17 @@ export interface GetFullProfileType {
 
 export interface GetFullProfileResponseType {
   characters: {
-    data: {
-      [key: string]: CharacterDataType;
-    };
+    data: Record<string, CharacterDataType>;
   };
   characterEquipment: {
-    data: {
-      [key: string]: CharacterEquipmentType;
-    };
+    data: Record<string, CharacterEquipmentType>;
   };
   itemComponents: {
     instances: {
-      data: {
-        [key: string]: ItemInstanceType;
-      };
+      data: Record<string, ItemInstanceType>;
+    };
+    perks: {
+      data: Record<string, {perks: ItemPerkType[]}>
     };
   };
 }

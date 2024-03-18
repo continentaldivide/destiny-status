@@ -1,17 +1,31 @@
-import { useManifestContext } from '../_context/ManifestContext';
 import Image from 'next/image';
+import ItemPerk from './ItemPerk';
+import { useManifestContext } from '../_context/ManifestContext';
 import ItemInstanceType from '../_interfaces/InventoryItemInstance.interface';
+import ItemPerkType from '../_interfaces/ItemPerk.interface';
 import { DamageType } from '../_interfaces/manifestTables/DestinyDamageTypeDefinition.interface';
 import { ItemType } from '../_interfaces/manifestTables/DestinyInventoryItemDefinition.interface';
 
 type Props = {
   itemInstance: ItemInstanceType;
+  // ships have no perks, so itemPerks will necessarily be undefined for one item per character.  would like to come back to this and refactor in a way that can distinguish between this and unintentionally undefined results
+  itemPerks: { perks: ItemPerkType[] } | undefined;
   item: ItemType;
 };
 
-export default function Item({ itemInstance, item }: Props) {
+export default function Item({ itemInstance, itemPerks, item }: Props) {
   const { DestinyDamageTypeDefinition, DestinyStatDefinition } =
     useManifestContext();
+
+  let itemPerkComponents: JSX.Element[] = [];
+
+  if (itemPerks) {
+    itemPerkComponents = itemPerks.perks.map(
+      (itemPerk: ItemPerkType, i: number) => {
+        return <ItemPerk itemPerk={itemPerk} key={`itemPerk ${i}`} />;
+      }
+    );
+  }
 
   let damageType: DamageType | undefined = undefined;
   if (itemInstance.damageTypeHash) {
@@ -52,8 +66,15 @@ export default function Item({ itemInstance, item }: Props) {
             />
           </div>
         ) : null}
+        <div className="absolute bottom-0 right-0 w-full text-power-level drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] bg-gradient-to-l from-slate-500/25">
+          {powerLevel ? (
+            <p className="text-sm text-end font-semibold pr-0.5">
+              {powerLevel}
+            </p>
+          ) : null}
+        </div>
       </div>
-      <div className="w-60 p-2 flex flex-col justify-between">
+      <div className="w-60 p-1 flex flex-col justify-around items-end">
         <div className="flex gap-1 justify-end">
           <p className="text-sm truncate">{item.displayProperties.name}</p>
           {damageType ? (
@@ -67,20 +88,11 @@ export default function Item({ itemInstance, item }: Props) {
             />
           ) : null}
         </div>
-        <div className="flex gap-0.5 justify-end">
-          {powerLevel ? (
-            <p className="text-sm font-semibold">{powerLevel}</p>
-          ) : null}
-          {powerLevel ? (
-            <Image
-              unoptimized
-              src={`https://bungie.net${powerIconPath}`}
-              alt=""
-              width={20}
-              height={20}
-            />
-          ) : null}
-        </div>
+        {itemPerkComponents.length > 0 ? (
+          <div className="p-0.5 w-fit rounded-md flex gap-0.5 items-center justify-end bg-slate-800 shadow-black shadow-inner">
+            {itemPerkComponents}
+          </div>
+        ) : null}
       </div>
     </div>
   );

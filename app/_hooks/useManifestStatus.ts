@@ -59,12 +59,14 @@ export function useManifestStatus() {
     const {
       DestinyDamageTypeDefinition,
       DestinyInventoryItemDefinition,
+      DestinySandboxPerkDefinition,
       DestinyStatDefinition,
     } = await response.json();
 
     set('manifest', {
       DestinyDamageTypeDefinition,
       DestinyInventoryItemDefinition,
+      DestinySandboxPerkDefinition,
       DestinyStatDefinition,
     });
   };
@@ -72,6 +74,7 @@ export function useManifestStatus() {
   const requiredManifestTables = [
     'DestinyDamageTypeDefinition',
     'DestinyInventoryItemDefinition',
+    'DestinySandboxPerkDefinition',
     'DestinyStatDefinition',
   ];
 
