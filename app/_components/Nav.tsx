@@ -53,7 +53,7 @@ export default function Nav({
             <img
               height="36"
               width="36"
-              src="https://cdn.simpleicons.org/github/CCCCCC/"
+              src="https://cdn.simpleicons.org/github/CCCCCC"
             />
           </a>
         </div>
