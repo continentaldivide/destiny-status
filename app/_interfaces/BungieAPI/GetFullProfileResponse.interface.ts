@@ -19,7 +19,7 @@ export interface GetFullProfileResponseType {
       data: Record<string, ItemInstanceType>;
     };
     perks: {
-      data: Record<string, {perks: ItemPerkType[]}>
+      data: Record<string, { perks: ItemPerkType[] }>;
     };
   };
 }
