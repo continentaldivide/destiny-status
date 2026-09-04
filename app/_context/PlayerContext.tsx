@@ -1,7 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import PlayerContextType from '../_interfaces/PlayerContext.interface';
-import { GetFullProfileResponseType } from '../_interfaces/BungieAPI/GetFullProfileResponse.interface';
-import CharacterEquipmentType from '../_interfaces/CharacterEquipment.interface';
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
@@ -14,22 +12,31 @@ type Props = {
   children: React.ReactNode;
 };
 
+const emptyPlayerData: PlayerContextType = {
+  characterEquipment: {},
+  itemInstances: {},
+  itemPerks: {},
+  definitions: {
+    DestinyInventoryItemDefinition: {},
+    DestinyDamageTypeDefinition: {},
+    DestinySandboxPerkDefinition: {},
+    DestinyStatDefinition: {},
+  },
+  hasError: false,
+};
+
 export function PlayerContextProvider({
   currentUserData,
   setFetchingData,
   children,
 }: Props) {
-  const [fetchedPlayerData, setFetchedPlayerData] = useState<PlayerContextType>(
-    {
-      characterEquipment: {},
-      itemInstances: {},
-      itemPerks: {},
-    }
-  );
+  const [fetchedPlayerData, setFetchedPlayerData] =
+    useState<PlayerContextType>(emptyPlayerData);
 
+  // The response arrives ready to render: equipment is already filtered and
+  // carries the manifest definitions for every hash it references.
   const fetchCharacters = async () => {
     const { membershipType, membershipId } = currentUserData;
-    setFetchingData(true);
     const response = await fetch(`api/get-full-profile`, {
       method: 'POST',
       body: JSON.stringify({
@@ -37,52 +44,38 @@ export function PlayerContextProvider({
         membershipId,
       }),
     });
-    const { characterEquipment, itemComponents }: GetFullProfileResponseType =
-      await response.json();
-    setFetchingData(false);
-    return {
-      characterEquipment: characterEquipment.data,
-      itemInstances: itemComponents.instances.data,
-      itemPerks: itemComponents.perks.data,
-    };
-  };
-
-  // item.transferStatus 3 gets rid of each piece of 'equipment' that can't be transferred between characters: subclass, clan banner, emblem, emotes, and finishers.  ref https://bungie-net.github.io/multi/schema_Destiny-TransferStatuses.html
-  const filterEquipment = (characterEquipment: {
-    [key: string]: CharacterEquipmentType;
-  }) => {
-    for (const character in characterEquipment) {
-      characterEquipment[character].items = characterEquipment[
-        character
-      ].items.filter((item) => {
-        return item.transferStatus !== 3;
-      });
+    if (!response.ok) {
+      throw new Error(`get-full-profile responded ${response.status}`);
     }
+    return await response.json();
   };
 
   useEffect(() => {
     if (currentUserData.membershipId === '') {
-      setFetchedPlayerData({
-        characterEquipment: {},
-        itemInstances: {},
-        itemPerks: {},
-      });
+      setFetchedPlayerData(emptyPlayerData);
       return;
-    } else {
-      (async () => {
-        try {
-          const { characterEquipment, itemInstances, itemPerks } = await fetchCharacters();
-          filterEquipment(characterEquipment);
-          setFetchedPlayerData({
-            characterEquipment,
-            itemInstances,
-            itemPerks
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      })();
     }
+    (async () => {
+      setFetchingData(true);
+      try {
+        const { characterEquipment, itemInstances, itemPerks, definitions } =
+          await fetchCharacters();
+        setFetchedPlayerData({
+          characterEquipment,
+          itemInstances,
+          itemPerks,
+          definitions,
+          hasError: false,
+        });
+      } catch (error) {
+        console.error(error);
+        // Surfaces ErrorMessage rather than leaving the user on a loading
+        // skeleton that never resolves.
+        setFetchedPlayerData({ ...emptyPlayerData, hasError: true });
+      } finally {
+        setFetchingData(false);
+      }
+    })();
   }, [currentUserData]);
 
   return (
