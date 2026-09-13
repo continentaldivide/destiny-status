@@ -1,0 +1,56 @@
+# Bungie ships a new manifest version on patch days.  The slim manifest is built
+# during `next build`, so picking up a new version means redeploying.  This
+# polls Bungie's version string and triggers a deploy when it changes.
+#
+# Requires one repository secret:
+#   VERCEL_DEPLOY_HOOK_URL - Vercel > Settings > Git > Deploy Hooks
+name: Refresh manifest
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compare deployed manifest version against Bungie
+        id: compare
+        run: |
+          set -o pipefail
+
+          # Read both versions defensively.  `jq` exits 0 on empty input, so a
+          # failed curl yields an empty string rather than an error, and any
+          # non-empty sentinel here would compare unequal to the live version
+          # and trigger a redeploy on every run for as long as the problem
+          # lasted.  Not knowing a version means skipping, never guessing.
+          live=$(curl -sf --max-time 30 \
+            https://www.bungie.net/Platform/Destiny2/Manifest/ \
+            | jq -r '.Response.version // empty' || true)
+          if [ -z "$live" ]; then
+            echo "Could not read manifest version from Bungie; skipping."
+            exit 0
+          fi
+
+          deployed=$(curl -sf --max-time 30 \
+            https://destinystatus.net/api/manifest-version \
+            | jq -r '.version // empty' || true)
+          if [ -z "$deployed" ]; then
+            echo "Could not read deployed version from the site; skipping."
+            exit 0
+          fi
+
+          echo "live=$live"
+          echo "deployed=$deployed"
+          if [ "$live" = "$deployed" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger redeploy
+        if: steps.compare.outputs.changed == 'true'
+        run: |
+          curl -sf -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
+          echo "Deploy triggered."

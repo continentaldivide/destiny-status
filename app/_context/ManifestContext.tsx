@@ -1,65 +1,14 @@
-import {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-  ReactNode,
-} from 'react';
-import { get } from 'idb-keyval';
-import LoadingScreen from '../_components/Loading/LoadingScreen';
-import ErrorMessage from '../_components/ErrorMessage';
-import { useManifestStatus } from '../_hooks/useManifestStatus';
-import ManifestType from '../_interfaces/Manifest.interface';
+import { usePlayerContext } from './PlayerContext';
 
-const ManifestContext = createContext<ManifestType | undefined>(undefined);
-
-export function ManifestContextProvider({ children }: { children: ReactNode }) {
-  const manifestStatus = useManifestStatus();
-  const [manifest, setManifest] = useState<ManifestType | undefined>();
-  const [manifestIsReady, setManifestIsReady] = useState(false);
-  const newestManifestInStorage = manifestStatus === 'manifestReady';
-  const badApiResponse = manifestStatus === 'badApiResponse';
-
-  const userMessages: {
-    [key: string]: string;
-  } = {
-    checkingVersion: 'Checking for new Bungie data...',
-    downloadingManifest: 'Downloading new manifest from Bungie...',
-    manifestReady: 'Loading item definitions...',
-  };
-
-  useEffect(() => {
-    if (!newestManifestInStorage) return;
-    (async () => {
-      const manifest: ManifestType | undefined = await get('manifest');
-      setManifest(manifest);
-      setManifestIsReady(true);
-    })();
-  }, [newestManifestInStorage]);
-
-  let pageContent: ReactNode;
-
-  if (manifestIsReady) {
-    pageContent = children;
-  } else if (badApiResponse) {
-    pageContent = <ErrorMessage />;
-  } else {
-    pageContent = (
-      <LoadingScreen loadingMessage={userMessages[manifestStatus]} />
-    );
-  }
-
-  return (
-    <ManifestContext.Provider value={manifest}>
-      {pageContent}
-    </ManifestContext.Provider>
-  );
-}
-
+// Manifest definitions used to be downloaded in full by the browser and held in
+// IndexedDB.  They now arrive alongside the profile they describe, scoped to
+// just the hashes that profile references, so this is a thin read over
+// PlayerContext rather than a provider of its own.  The hook keeps its original
+// name and return type so the components consuming it are unaffected.
 export function useManifestContext() {
-  const manifest = useContext(ManifestContext);
-  if (!manifest) {
+  const { definitions } = usePlayerContext();
+  if (!definitions) {
     throw new Error('Context must be used within a Provider');
   }
-  return manifest;
+  return definitions;
 }

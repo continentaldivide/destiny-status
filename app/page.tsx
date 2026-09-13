@@ -7,7 +7,6 @@ import CharacterContainer from './_components/CharacterContainer';
 import SearchResultContainer from './_components/SearchResultContainer';
 import useGenerateSearchResults from './_hooks/useGenerateSearchResults';
 import { GetBasicProfileResponseType } from './_interfaces/BungieAPI/GetBasicProfileResponse.interface';
-import { ManifestContextProvider } from './_context/ManifestContext';
 import { PlayerContextProvider } from './_context/PlayerContext';
 
 export default function Home() {
@@ -55,35 +54,33 @@ export default function Home() {
 
   return (
     <>
-      <ManifestContextProvider>
-        <Nav
-          fetchingData={fetchingData}
-          setUsername={setUsername}
-          handleInfoClick={() => setModalIsOpen(true)}
-        />
-        <main className="flex min-h-screen flex-col items-center pt-24">
-          {modalIsOpen && <InstructionsModal onClose={handleModalClose} />}
-          <PlayerContextProvider
-            currentUserData={currentUserData}
-            setFetchingData={setFetchingData}
-          >
-            {currentUserData.membershipId === '' ? (
-              <SearchResultContainer
-                username={username}
-                fetchingData={fetchingData}
-                searchResults={searchResults}
-                setSearchResults={setSearchResults}
-                setCurrentUserData={setCurrentUserData}
-              />
-            ) : (
-              <CharacterContainer
-                characterCount={currentUserData.characterCount}
-                fetchingData={fetchingData}
-              />
-            )}
-          </PlayerContextProvider>
-        </main>
-      </ManifestContextProvider>
+      <Nav
+        fetchingData={fetchingData}
+        setUsername={setUsername}
+        handleInfoClick={() => setModalIsOpen(true)}
+      />
+      <main className="flex min-h-screen flex-col items-center pt-24">
+        {modalIsOpen && <InstructionsModal onClose={handleModalClose} />}
+        <PlayerContextProvider
+          currentUserData={currentUserData}
+          setFetchingData={setFetchingData}
+        >
+          {currentUserData.membershipId === '' ? (
+            <SearchResultContainer
+              username={username}
+              fetchingData={fetchingData}
+              searchResults={searchResults}
+              setSearchResults={setSearchResults}
+              setCurrentUserData={setCurrentUserData}
+            />
+          ) : (
+            <CharacterContainer
+              characterCount={currentUserData.characterCount}
+              fetchingData={fetchingData}
+            />
+          )}
+        </PlayerContextProvider>
+      </main>
     </>
   );
 }

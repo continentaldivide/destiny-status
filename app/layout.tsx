@@ -1,6 +1,6 @@
 import './globals.css';
 import { Nunito } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from './_components/Analytics';
 
 const nunito = Nunito({
   subsets: ['latin'],
