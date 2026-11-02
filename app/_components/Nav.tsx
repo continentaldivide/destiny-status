@@ -41,6 +41,7 @@ export default function Nav({
         <div className="flex">
           <button
             onClick={handleInfoClick}
+            data-umami-event="info_open"
             className="my-auto pr-1 hover:brightness-125"
           >
             <img height="44" width="44" src="info.svg" />
@@ -48,6 +49,7 @@ export default function Nav({
           <a
             target="_blank"
             href="https://github.com/continentaldivide/destiny-status"
+            data-umami-event="github_click"
             className="my-auto hover:brightness-125"
           >
             <img

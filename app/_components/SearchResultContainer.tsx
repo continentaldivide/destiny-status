@@ -2,6 +2,16 @@ import SearchResult from './SearchResult';
 import LoadingSearchResultContainer from './Loading/LoadingSearchResultContainer';
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 import { useState, useEffect } from 'react';
+import { trackEvent } from '../_lib/analytics';
+
+// Bungie's BungieMembershipType values
+const platformNames: Record<number, string> = {
+  1: 'xbox',
+  2: 'psn',
+  3: 'steam',
+  5: 'stadia',
+  6: 'epic',
+};
 
 type Props = {
   username: string;
@@ -38,8 +48,15 @@ export default function SearchResultContainer({
   const handleUserClick = (
     membershipId: string,
     membershipType: number,
-    characterCount: number
+    characterCount: number,
+    resultPosition: number
   ) => {
+    trackEvent('profile_view', {
+      result_position: resultPosition,
+      result_count: searchResults.length,
+      platform: platformNames[membershipType] ?? String(membershipType),
+      character_count: characterCount,
+    });
     setCurrentUserData({ membershipId, membershipType, characterCount });
     setSearchResults([]);
   };
@@ -58,7 +75,7 @@ export default function SearchResultContainer({
     return (
       <SearchResult
         profileData={searchResult}
-        handleUserClick={handleUserClick}
+        handleUserClick={(...args) => handleUserClick(...args, i + 1)}
         key={`search result ${i}`}
       />
     );

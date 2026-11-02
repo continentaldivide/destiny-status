@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import PlayerContextType from '../_interfaces/PlayerContext.interface';
+import { trackEvent } from '../_lib/analytics';
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
@@ -69,6 +70,7 @@ export function PlayerContextProvider({
         });
       } catch (error) {
         console.error(error);
+        trackEvent('profile_error');
         // Surfaces ErrorMessage rather than leaving the user on a loading
         // skeleton that never resolves.
         setFetchedPlayerData({ ...emptyPlayerData, hasError: true });

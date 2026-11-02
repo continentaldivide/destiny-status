@@ -2,6 +2,8 @@ import PlayerSearchResultType from '../_interfaces/PlayerSearchResult.interface'
 import { GetBasicProfileResponseType } from '../_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 
 export default async function useGenerateSearchResults(username: string) {
+  let failed = false;
+
   // any failed search resolves to an empty array so the page shows its "no results" message instead of crashing
   const fetchUsers = async (): Promise<PlayerSearchResultType[]> => {
     if (username.length === 0) {
@@ -14,12 +16,14 @@ export default async function useGenerateSearchResults(username: string) {
       });
       if (!response.ok) {
         console.log(`User search failed with status ${response.status}`);
+        failed = true;
         return [];
       }
       const data = await response.json();
       return data.searchResults ?? [];
     } catch (error) {
       console.log(error);
+      failed = true;
       return [];
     }
   };
@@ -67,5 +71,5 @@ export default async function useGenerateSearchResults(username: string) {
     }
   );
 
-  return validProfiles;
+  return { results: validProfiles, failed };
 }

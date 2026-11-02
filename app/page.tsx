@@ -8,6 +8,7 @@ import SearchResultContainer from './_components/SearchResultContainer';
 import useGenerateSearchResults from './_hooks/useGenerateSearchResults';
 import { GetBasicProfileResponseType } from './_interfaces/BungieAPI/GetBasicProfileResponse.interface';
 import { PlayerContextProvider } from './_context/PlayerContext';
+import { trackSearch } from './_lib/analytics';
 
 export default function Home() {
   const [fetchingData, setFetchingData] = useState(false);
@@ -35,9 +36,27 @@ export default function Home() {
     }
     const getSearchResults = async () => {
       setFetchingData(true);
-      const searchResults = await useGenerateSearchResults(username);
-      setSearchResults(searchResults);
-      setFetchingData(false);
+      try {
+        const { results, failed } = await useGenerateSearchResults(username);
+        setSearchResults(results);
+        if (failed) {
+          trackSearch(username, 'error', 0);
+        } else {
+          trackSearch(
+            username,
+            results.length > 0 ? 'results' : 'no_results',
+            results.length
+          );
+        }
+      } catch (error) {
+        // a failed profile lookup lands here; without this the page would stay
+        // on the loading skeleton with the search button disabled
+        console.log(error);
+        setSearchResults([]);
+        trackSearch(username, 'error', 0);
+      } finally {
+        setFetchingData(false);
+      }
     };
     getSearchResults();
     setCurrentUserData({

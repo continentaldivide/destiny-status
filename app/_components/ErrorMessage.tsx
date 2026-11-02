@@ -16,6 +16,7 @@ export default function ErrorMessage() {
               <a
                 target="_blank"
                 href="https://twitter.com/BungieHelp"
+                data-umami-event="bungie_help_click"
                 className="underline text-blue-300 visited:text-blue-400"
               >
                 maintenance notification account
